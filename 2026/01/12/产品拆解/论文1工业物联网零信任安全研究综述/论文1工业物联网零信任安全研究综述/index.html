@@ -1,0 +1,841 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/images/avatar.jpg">
+  <link rel="icon" href="/images/avatar.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Peng Yue">
+  <meta name="keywords" content="Axure/Figma、Xmind、SQL、Python/Java、Git、Visio、Tableau、Cursor、Gemini、Prompt Engineering、Dify、Coze、agent">
+  
+    <meta name="description" content="通过研读这篇综述，梳理了SDP架构，零信任的主要原则、数据源、3个主要组件以及其功能和通信方式。另外了解了常用的生成设备指纹的方法、如何获取“是否安装杀毒软件”信息的方法。 一、零信任​	零信任是一种资源保护为核心的网络安全模型，遵循“绝不信任、始终认证”的原则。不对任何访问主体默认授予信任，而是通过**持续的信任评估动态调整和管理安全策略。**通过增强的身份认证、访问控制以及资源间的微隔离等方式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="论文1工业物联网零信任安全研究综述">
+<meta property="og:url" content="https://py0909.github.io/2026/01/12/%E4%BA%A7%E5%93%81%E6%8B%86%E8%A7%A3/%E8%AE%BA%E6%96%871%E5%B7%A5%E4%B8%9A%E7%89%A9%E8%81%94%E7%BD%91%E9%9B%B6%E4%BF%A1%E4%BB%BB%E5%AE%89%E5%85%A8%E7%A0%94%E7%A9%B6%E7%BB%BC%E8%BF%B0/%E8%AE%BA%E6%96%871%E5%B7%A5%E4%B8%9A%E7%89%A9%E8%81%94%E7%BD%91%E9%9B%B6%E4%BF%A1%E4%BB%BB%E5%AE%89%E5%85%A8%E7%A0%94%E7%A9%B6%E7%BB%BC%E8%BF%B0/index.html">
+<meta property="og:site_name" content="Peng Yue的产品思考博客">
+<meta property="og:description" content="通过研读这篇综述，梳理了SDP架构，零信任的主要原则、数据源、3个主要组件以及其功能和通信方式。另外了解了常用的生成设备指纹的方法、如何获取“是否安装杀毒软件”信息的方法。 一、零信任​	零信任是一种资源保护为核心的网络安全模型，遵循“绝不信任、始终认证”的原则。不对任何访问主体默认授予信任，而是通过**持续的信任评估动态调整和管理安全策略。**通过增强的身份认证、访问控制以及资源间的微隔离等方式">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://py0909.github.io/images/lxr.jpg">
+<meta property="article:published_time" content="2026-01-12T07:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-12T09:51:13.733Z">
+<meta property="article:author" content="Peng Yue">
+<meta property="article:tag" content="Prompt">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://py0909.github.io/images/lxr.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>论文1工业物联网零信任安全研究综述 - Peng Yue的产品思考博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"py0909.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Peng Yue的产品笔记</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E9%A1%B9%E7%9B%AE%E5%A4%8D%E7%9B%98/" target="_self">
+                <i class="iconfont icon-ppt"></i>
+                <span>项目复盘</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/AI%E4%B8%8E%E6%8A%80%E6%9C%AF/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>AI探索</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E4%BA%A7%E5%93%81%E6%8B%86%E8%A7%A3/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>产品拆解</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E6%96%B9%E6%B3%95%E8%AE%BA/" target="_self">
+                <i class="iconfont icon-book-fill"></i>
+                <span>方法论</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E5%8E%9F%E5%9E%8B%E8%AE%BE%E8%AE%A1/" target="_self">
+                <i class="iconfont icon-pen"></i>
+                <span>原型设计</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/images/lxr.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="论文1工业物联网零信任安全研究综述"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Peng Yue
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-12 15:00" pubdate>
+          2026年1月12日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          31 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">论文1工业物联网零信任安全研究综述</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>通过研读这篇综述，梳理了SDP架构，零信任的主要原则、数据源、3个主要组件以及其功能和通信方式。另外了解了常用的生成设备指纹的方法、如何获取“是否安装杀毒软件”信息的方法。</p>
+<h2 id="一、零信任"><a href="#一、零信任" class="headerlink" title="一、零信任"></a>一、零信任</h2><p>​	零信任是一种资源保护为核心的网络安全模型，遵循“绝不信任、始终认证”的原则。不对任何访问主体默认授予信任，而是通过**持续的信任评估动态调整和管理安全策略。**通过增强的身份认证、访问控制以及资源间的微隔离等方式，抵御网络内外部的威胁。通过动态的访问控制机制，可以实现对资源访问控制的细粒度管理，能够根据访问主体的实时状态和环境信息灵活调整权限，确保每个访问请求都经过严格的持续认证。</p>
+<p><strong>零信任主要原则</strong>：</p>
+<p>1、不可信假设：新接入设备应被默认为不可信，必须经过严格的认证来保证安全性；</p>
+<p>2、持续认证与授权：设备的使用周期长，因此需要对设备进行持续的身份认证和信任评估；</p>
+<p>3、低时间延迟：安全防护时，需尽可能地减少安全措施对系统响应时间的影响，确保快速数据处理和即时响应。</p>
+<p>4、通信安全：设备间的计算资源差异明显，需要结合协议特点，确保信息传递的完整性和安全性</p>
+<p>5、动态授权：不同设备在不同时间和环境下可能具有不同的安全需求和访问权限，因此为应对这种动态变化，需根据设备属性、网络环境以及操作上下文，对访问请求进行动态授权，以确保访问控制能够实时响应需求变化</p>
+<p>6、最低安全态势：不仅要审查访问主体本身的安全性，还应结合设备和资源的整体安全态势进行综合评估</p>
+<p>7、信息记录：设备生命周期长，长期运行中可能经历多种状态变化。需要详细记录设备的状态、历史行为及环境参数等信息</p>
+<p><strong>信任评估数据源</strong>：</p>
+<p>1、威胁源。提供已知漏洞及潜在威胁的信息来源，用以预测和防范未来的攻击。</p>
+<p>2、传输协议。包含工业系统中使用的各类通信协议及其安全特性的信息，用于评估这些协议在数据传输过程中的安全性及其潜在的安全风险。</p>
+<p>3、行为日志。记录工业系统中的操作和事件，分析这些日志有助于识别异常行为和潜在威胁。</p>
+<p>4、设备状态及环境。提供工业设备的运行状态和环境参数信息，通过实时监控设备健康状况，有助于及时发现异常情况。</p>
+<p>5、访问策略。围绕资源制定的访问控制策略，包括访问属性、规则和权限设置，以确保对数据的安全访问。</p>
+<p>6、行规。涉及操作中的标准和规章制度，确保系统操作符合行业规范和安全要求。</p>
+<p>7、安全事件管理系统。记录和管理所有安全事件，提供关于安全事件的检测、响应和解决方案的信息，提高系统的安全应对能力。</p>
+<p>8、身份管理系统。管理用户和设备的身份信息，确保每个访问请求的身份认证过程准确无误，防止未经授权的访问。</p>
+<h2 id="二、软件定义边界（SDP）"><a href="#二、软件定义边界（SDP）" class="headerlink" title="二、软件定义边界（SDP）"></a>二、软件定义边界（SDP）</h2><p>**软件定义边界（SDP）**是一种通过隐藏基础设施来部署逻辑边界，将服务与不安全网络隔离的安全模型。其“未授权用户无法访问任何位置的资源”这一安全理念，与零信任中“授权和信任不依赖于网络位置”的核心原则高度契合。</p>
+<p>在SDP的架构中，通常包括以下3个主要组件，以实现零信任环境下的安全访问控制：<br>1）控制器。负责对客户端进行身份认证和授权，确保只有经过验证的客户端才能访问资源。<br>2）网关。用于隐藏资源，防止未授权的访问行为，从而提供安全的访问控制。<br>3）客户端。充当访问主体向系统提出访问请求。</p>
+<p>控制器在接收到客户端的访问请求后，会对其身份进行认证与授权，只有经过认证的请求才能被转发至网关以获取相应的资源。</p>
+<p>SDP可以根据不同的应用场景被划分为4种主要模型：客户端-网关模型、客户端-服务器模型、客户端-网关-客户端模型以及服务器-服务器模型，如图3所示。</p>
+<p><strong>1、客户端-网关模型</strong><br>在该模型中，网关充当PEP，部署在资源的隔离区域内。该模式适用于陈旧数据库系统或基于云的解决方案，通过网关将数据资源隐藏在隔离区域内，只有经过认证授权后的用户才能建立与资源的连接。</p>
+<p>2、客户端-服务器模型<br>在该模型中，网关作为资源代理，部署在资源前，以建立客户端与资源之间的安全通道。该模型广泛应用于网络层的ZTA。</p>
+<p><strong>3、客户端-网关-客户端模型</strong><br>在该模型中，客户端可以作为启动端、接收端或二者皆是，SDP网关用于连接多个客户端，实现点对点通信。这种模型通常用于设备间的数据交换安全性管理。</p>
+<p>4、服务器-服务器模型<br>在该模型中，网关部署在服务器前，用于在面对未经授权的连接时隐藏所有资源，确保系统的整体安全性。该模型适用于IIoT（工业物联网）和虚拟机环境。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/PY0909/my-pic-bed@main/img/20260112161048764.png" srcset="/img/loading.gif" lazyload alt="image-20260112161037918"></p>
+<h3 id="组件间协同流程理解："><a href="#组件间协同流程理解：" class="headerlink" title="组件间协同流程理解："></a>组件间协同流程理解：</h3><p><img src="https://cdn.jsdelivr.net/gh/PY0909/my-pic-bed@main/img/20260112161121985.png" srcset="/img/loading.gif" lazyload alt="image-20260112144134533"></p>
+<p>访问主体最初都被赋予不可信的身份，必须经身份认证后才能建立会话</p>
+<ol>
+<li><strong>终端发起请求</strong>：员工打开电脑上的<code>客户端</code>，输入账号密码完成初次认证。<code>客户端</code>将<strong>身份信息</strong>和收集到的<strong>设备环境信息</strong>发送给<code>身份认证系统【控制器】</code>。</li>
+<li><strong>决策</strong>：<code>身份认证系统</code>接收到请求后：<ul>
+<li>验证用户身份是否合法。</li>
+<li>评估设备环境是否满足安全评估。</li>
+<li>结合预设的访问策略（只有安全的设备才能访问），做出决策：<strong>允许访问，并指定其必须通过哪个<code>代理网关</code>来访问目标应用</strong>。</li>
+</ul>
+</li>
+<li><strong>指令下发</strong>：<code>身份认证系统</code>将授权指令（一个临时的、有时效的票据或令牌）同时下发给<code>客户端</code>和<code>代理网关</code>。</li>
+<li><strong>建立安全连接</strong>：<code>客户端</code>根据指令，与指定的<code>代理网关</code>建立一条加密的、点对点的通信隧道。</li>
+<li><strong>访问资源</strong>：用户通过隧道发起访问请求（打开后端资源&#x2F;应用）。<code>代理网关</code>在收到请求时，会再次向<code>身份认证系统</code>确认此次会话是否被授权。确认无误后，<code>代理网关</code>将请求代理转发给后台真实的应用服务器，并将返回的数据通过隧道加密传给用户的<code>客户端</code>。</li>
+<li><strong>持续监控</strong>：在整个会话期间，<code>客户端</code>可能持续上报设备状态，<code>身份认证系统</code>进行持续信任评估。如果发现风险（如设备突然连入陌生Wi-Fi），<code>身份认证系统</code>可以实时通知<code>代理网关</code>中断该会话。</li>
+</ol>
+<h2 id="三、设备指纹"><a href="#三、设备指纹" class="headerlink" title="三、设备指纹"></a>三、设备指纹</h2><p><strong>传统设备指纹四要素：</strong></p>
+<ol>
+<li><strong>CPU序列号&#x2F;CPU ID</strong></li>
+<li><strong>主板序列号</strong></li>
+<li><strong>硬盘序列号（或卷序列号）</strong></li>
+<li><strong>MAC地址（通常是第一块有线网卡的地址）</strong></li>
+</ol>
+<p>这四者被视为设备最稳定、最底层的硬件标识，组合起来能在绝大多数物理机上生成一个全球唯一的设备标识符。</p>
+<h2 id="四、如何获取“是否安装杀毒软件”等信息"><a href="#四、如何获取“是否安装杀毒软件”等信息" class="headerlink" title="四、如何获取“是否安装杀毒软件”等信息"></a>四、如何获取“是否安装杀毒软件”等信息</h2><table>
+<thead>
+<tr>
+<th>平台</th>
+<th>数据源</th>
+<th>具体方法</th>
+<th>完全可获取的字段</th>
+<th>实现条件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Windows</strong></td>
+<td><strong>1. WMI (<code>root\SecurityCenter2</code>)</strong><br><strong>2. Defender专用API</strong><br><strong>3. 系统服务管理器</strong></td>
+<td>1. <code>SELECT * FROM AntiVirusProduct</code><br>2. <code>Get-MpComputerStatus</code><br>3. <code>Get-Service</code></td>
+<td>1. <strong>杀软名称</strong><br>2. <strong>实时防护状态</strong><br>3. <strong>病毒库更新时间</strong><br>4. <strong>服务运行状态</strong><br>5. <strong>防火墙状态</strong><br>6. <strong>Windows更新状态</strong></td>
+<td>1. 管理员权限<br>2. WMI服务开启<br>3. PowerShell执行权限</td>
+</tr>
+<tr>
+<td><strong>macOS</strong></td>
+<td><strong>1. 系统扩展框架</strong><br><strong>2. 系统偏好设置数据库</strong><br><strong>3. 进程列表</strong></td>
+<td>1. <code>systemextensionsctl list</code><br>2. <code>defaults read /Library/Preferences/com.apple.security</code><br>3. <code>ps aux | grep -E</code></td>
+<td>1. <strong>系统扩展列表</strong><br>2. <strong>Gatekeeper状态</strong><br>3. <strong>SIP状态</strong><br>4. <strong>防火墙状态</strong><br>5. <strong>FileVault状态</strong><br>6. <strong>已知杀软进程</strong></td>
+<td>1. 企业开发者证书<br>2. 用户授权（首次）<br>3. 终端执行权限</td>
+</tr>
+<tr>
+<td><strong>Linux</strong></td>
+<td><strong>1. systemd服务系统</strong><br><strong>2. 包管理器数据库</strong><br><strong>3. &#x2F;proc文件系统</strong></td>
+<td>1. <code>systemctl is-active --quiet &lt;服务名&gt;</code><br>2. <code>rpm -qa | grep</code> 或 <code>dpkg -l | grep</code><br>3. 扫描<code>/proc/&lt;pid&gt;/status</code></td>
+<td>1. <strong>服务运行状态</strong><br>2. <strong>软件包安装状态</strong><br>3. <strong>进程存在性</strong><br>4. <strong>SELinux&#x2F;AppArmor状态</strong><br>5. <strong>iptables&#x2F;nftables状态</strong></td>
+<td>1. root权限<br>2. systemd系统（多数发行版）<br>3. 已知杀软服务名列表</td>
+</tr>
+<tr>
+<td><strong>Android企业版</strong></td>
+<td><strong>1. Android DevicePolicy API</strong><br><strong>2. 包管理器API</strong><br><strong>3. 系统Build属性</strong></td>
+<td>1. <code>DevicePolicyManager.getStorageEncryptionStatus()</code><br>2. <code>PackageManager.getInstalledPackages()</code><br>3. <code>Build.VERSION.SECURITY_PATCH</code></td>
+<td>1. <strong>设备加密状态</strong><br>2. <strong>屏幕锁类型&#x2F;强度</strong><br>3. <strong>安全补丁日期</strong><br>4. <strong>Work Profile状态</strong><br>5. <strong>指定应用安装状态</strong></td>
+<td>1. 设备管理员权限<br>2. 企业EMM&#x2F;MDM集成<br>3. Android 5.0+</td>
+</tr>
+<tr>
+<td><strong>iOS企业版</strong></td>
+<td><strong>1. Apple MDM协议</strong><br><strong>2. 声明式管理状态</strong></td>
+<td>1. <code>SecurityInfo</code> MDM命令<br>2. 声明式状态订阅<br>3. 限制查询</td>
+<td>1. <strong>密码策略合规</strong><br>2. <strong>设备加密状态</strong><br>3. <strong>自动锁定时间</strong><br>4. <strong>MDM注册状态</strong><br>5. <strong>越狱检测状态</strong></td>
+<td>1. Apple企业开发者账号<br>2. MDM服务器配置<br>3. 用户同意MDM注册</td>
+</tr>
+</tbody></table>
+<p>[1]王航宇,吕飞,程裕亮,等.工业物联网零信任安全研究综述[J].计算机研究与发展,2025,62(11):2784-2805.</p>
+<p>[2]高颖.基于多因素信任评估的零信任身份认证系统的设计与实现[D].北京邮电大学,2025.DOI:10.26969&#x2F;d.cnki.gbydu.2025.002904.</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E4%BA%A7%E5%93%81%E6%8B%86%E8%A7%A3/" class="category-chain-item">产品拆解</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E4%BA%A7%E5%93%81%E6%8B%86%E8%A7%A3/%E8%AE%BA%E6%96%871%E5%B7%A5%E4%B8%9A%E7%89%A9%E8%81%94%E7%BD%91%E9%9B%B6%E4%BF%A1%E4%BB%BB%E5%AE%89%E5%85%A8%E7%A0%94%E7%A9%B6%E7%BB%BC%E8%BF%B0/" class="category-chain-item">论文1工业物联网零信任安全研究综述</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Prompt/" class="print-no-link">#Prompt</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>论文1工业物联网零信任安全研究综述</div>
+      <div>https://py0909.github.io/2026/01/12/产品拆解/论文1工业物联网零信任安全研究综述/论文1工业物联网零信任安全研究综述/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Peng Yue</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月12日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-cc-nc"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="SA - 相同方式共享">
+                    <i class="iconfont icon-cc-sa"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/10/02/%E5%8E%9F%E5%9E%8B%E8%AE%BE%E8%AE%A1/%E5%88%9D%E5%85%83%E7%B4%A0%E8%8C%B6%E6%96%87%E5%8C%96%E5%8E%9F%E5%9E%8B1/" title="初元素茶文化原型1">
+                        <span class="hidden-mobile">初元素茶文化原型1</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>Peng Yue</span> <i class="iconfont icon-love"></i> <span>Product Manager</span> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
