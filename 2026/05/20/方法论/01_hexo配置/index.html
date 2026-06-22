@@ -1,0 +1,967 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/images/avatar.jpg">
+  <link rel="icon" href="/images/avatar.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Peng Yue">
+  <meta name="keywords" content="Axure/Figma、Xmind、SQL、Python/Java、Git、Visio、Tableau、Cursor、Gemini、Prompt Engineering、Dify、Coze、agent">
+  
+    <meta name="description" content="Hexo 推送 GitHub 完整修复流程一、前置检查：确认本地 SSH 密钥存在1ls -al ~&#x2F;.ssh  看到 id_ed25519、id_ed25519.pub 说明已有密钥，直接走下面加载步骤。 二、终端加载 SSH 私钥（新开终端必执行）1234# 启动ssh代理eval &quot;$(ssh-agent -s)&quot;# 将私钥存入Mac钥匙串，免重复输密码ssh-add -">
+<meta property="og:type" content="article">
+<meta property="og:title" content="01_hexo配置">
+<meta property="og:url" content="https://py0909.github.io/2026/05/20/%E6%96%B9%E6%B3%95%E8%AE%BA/01_hexo%E9%85%8D%E7%BD%AE/index.html">
+<meta property="og:site_name" content="Peng Yue的产品思考博客">
+<meta property="og:description" content="Hexo 推送 GitHub 完整修复流程一、前置检查：确认本地 SSH 密钥存在1ls -al ~&#x2F;.ssh  看到 id_ed25519、id_ed25519.pub 说明已有密钥，直接走下面加载步骤。 二、终端加载 SSH 私钥（新开终端必执行）1234# 启动ssh代理eval &quot;$(ssh-agent -s)&quot;# 将私钥存入Mac钥匙串，免重复输密码ssh-add -">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.statically.io/gh/PY0909/my-pic-bed/main/img/20260120093116015.jpeg">
+<meta property="article:published_time" content="2026-05-20T01:00:00.000Z">
+<meta property="article:modified_time" content="2026-06-18T17:04:12.636Z">
+<meta property="article:author" content="Peng Yue">
+<meta property="article:tag" content="Prompt">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.statically.io/gh/PY0909/my-pic-bed/main/img/20260120093116015.jpeg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>01_hexo配置 - Peng Yue的产品思考博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"py0909.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Peng Yue的产品笔记</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E9%A1%B9%E7%9B%AE%E5%A4%8D%E7%9B%98/" target="_self">
+                <i class="iconfont icon-ppt"></i>
+                <span>项目复盘</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/AI%E4%B8%8E%E6%8A%80%E6%9C%AF/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>AI探索</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E4%BA%A7%E5%93%81%E6%8B%86%E8%A7%A3/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>产品拆解</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E6%96%B9%E6%B3%95%E8%AE%BA/" target="_self">
+                <i class="iconfont icon-book-fill"></i>
+                <span>方法论</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E5%8E%9F%E5%9E%8B%E8%AE%BE%E8%AE%A1/" target="_self">
+                <i class="iconfont icon-pen"></i>
+                <span>原型设计</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://cdn.statically.io/gh/PY0909/my-pic-bed/main/img/20260120093116015.jpeg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="01_hexo配置"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Peng Yue
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-05-20 09:00" pubdate>
+          2026年5月20日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          39 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">01_hexo配置</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Hexo-推送-GitHub-完整修复流程"><a href="#Hexo-推送-GitHub-完整修复流程" class="headerlink" title="Hexo 推送 GitHub 完整修复流程"></a>Hexo 推送 GitHub 完整修复流程</h1><h2 id="一、前置检查：确认本地-SSH-密钥存在"><a href="#一、前置检查：确认本地-SSH-密钥存在" class="headerlink" title="一、前置检查：确认本地 SSH 密钥存在"></a>一、前置检查：确认本地 SSH 密钥存在</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">ls</span> -al ~/.ssh<br></code></pre></td></tr></table></figure>
+
+<p>看到 <code>id_ed25519</code>、<code>id_ed25519.pub</code> 说明已有密钥，直接走下面加载步骤。</p>
+<h2 id="二、终端加载-SSH-私钥（新开终端必执行）"><a href="#二、终端加载-SSH-私钥（新开终端必执行）" class="headerlink" title="二、终端加载 SSH 私钥（新开终端必执行）"></a>二、终端加载 SSH 私钥（新开终端必执行）</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 启动ssh代理</span><br><span class="hljs-built_in">eval</span> <span class="hljs-string">&quot;<span class="hljs-subst">$(ssh-agent -s)</span>&quot;</span><br><span class="hljs-comment"># 将私钥存入Mac钥匙串，免重复输密码</span><br>ssh-add --apple-use-keychain ~/.ssh/id_ed25519<br></code></pre></td></tr></table></figure>
+
+<h2 id="三、复制公钥上传-GitHub"><a href="#三、复制公钥上传-GitHub" class="headerlink" title="三、复制公钥上传 GitHub"></a>三、复制公钥上传 GitHub</h2><ol>
+<li>复制公钥到剪贴板</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> ~/.ssh/id_ed25519.pub | pbcopy<br></code></pre></td></tr></table></figure>
+
+<ol>
+<li><p>GitHub 网页操作：</p>
+<p>头像 → Settings → SSH and GPG keys → New SSH key</p>
+<p>粘贴公钥，标题自定义，保存（旧密钥建议全部删除避免冲突）</p>
+</li>
+</ol>
+<h2 id="四、验证-SSH-连通-GitHub（出现提示即成功）"><a href="#四、验证-SSH-连通-GitHub（出现提示即成功）" class="headerlink" title="四、验证 SSH 连通 GitHub（出现提示即成功）"></a>四、验证 SSH 连通 GitHub（出现提示即成功）</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ssh -T git@github.com<br></code></pre></td></tr></table></figure>
+
+<p>成功输出：<code>Hi PY0909! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</code></p>
+<h2 id="五、修改-Hexo-配置文件切换-SSH-地址"><a href="#五、修改-Hexo-配置文件切换-SSH-地址" class="headerlink" title="五、修改 Hexo 配置文件切换 SSH 地址"></a>五、修改 Hexo 配置文件切换 SSH 地址</h2><p>打开博客根目录 <code>_config.yml</code>，找到 <code>deploy</code> 配置，<strong>替换为 SSH 仓库地址</strong></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">deploy:</span><br>  <span class="hljs-attr">type:</span> <span class="hljs-string">git</span><br>  <span class="hljs-attr">repo:</span> <span class="hljs-string">git@github.com:PY0909/PY0909.github.io.git</span><br>  <span class="hljs-attr">branch:</span> <span class="hljs-string">main</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意：不能保留 <code>https://</code> 地址，否则依旧走 HTTPS，报超时 &#x2F; HTTP2 错误</p>
+</blockquote>
+<h2 id="六、Hexo-全套部署上传命令（3-选-1-使用）"><a href="#六、Hexo-全套部署上传命令（3-选-1-使用）" class="headerlink" title="六、Hexo 全套部署上传命令（3 选 1 使用）"></a>六、Hexo 全套部署上传命令（3 选 1 使用）</h2><h3 id="1-分步执行（排查问题推荐，每一步看日志）"><a href="#1-分步执行（排查问题推荐，每一步看日志）" class="headerlink" title="1. 分步执行（排查问题推荐，每一步看日志）"></a>1. 分步执行（排查问题推荐，每一步看日志）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 1. 清理旧静态文件</span><br>hexo clean<br><span class="hljs-comment"># 2. 编译md文档生成网页</span><br>hexo generate<br><span class="hljs-comment"># 简写 hexo g</span><br><span class="hljs-comment"># 3. 本地预览（可选，确认文章正常）</span><br>hexo server<br><span class="hljs-comment"># 简写 hexo s，浏览器访问 http://localhost:4000，Ctrl+C关闭预览</span><br><span class="hljs-comment"># 4. 推送至GitHub</span><br>hexo deploy<br><span class="hljs-comment"># 简写 hexo d</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="2-整合一键命令（日常更新直接用）"><a href="#2-整合一键命令（日常更新直接用）" class="headerlink" title="2. 整合一键命令（日常更新直接用）"></a>2. 整合一键命令（日常更新直接用）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">hexo clean &amp;&amp; hexo g &amp;&amp; hexo d<br></code></pre></td></tr></table></figure>
+
+<h3 id="3-SSH-失效-网络异常手动推送兜底方案"><a href="#3-SSH-失效-网络异常手动推送兜底方案" class="headerlink" title="3. SSH 失效 &#x2F; 网络异常手动推送兜底方案"></a>3. SSH 失效 &#x2F; 网络异常手动推送兜底方案</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">hexo g<br><span class="hljs-built_in">cd</span> public<br>git push -f origin main<br></code></pre></td></tr></table></figure>
+
+<h2 id="七、判断部署成功标准"><a href="#七、判断部署成功标准" class="headerlink" title="七、判断部署成功标准"></a>七、判断部署成功标准</h2><p>终端末尾出现这两行代表完整上传完成：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">To git@github.com:PY0909/PY0909.github.io.git<br>INFO  Deploy done: git<br></code></pre></td></tr></table></figure>
+
+<h2 id="八、备用应急（不想改-SSH，临时修复-HTTPS-报错）"><a href="#八、备用应急（不想改-SSH，临时修复-HTTPS-报错）" class="headerlink" title="八、备用应急（不想改 SSH，临时修复 HTTPS 报错）"></a>八、备用应急（不想改 SSH，临时修复 HTTPS 报错）</h2><p>如果暂时使用 https 地址，关闭 HTTP2 规避报错：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">git config --global http.version HTTP/1.1<br>hexo clean &amp;&amp; hexo g &amp;&amp; hexo d<br></code></pre></td></tr></table></figure>
+
+<h2 id="九、一劳永逸：新开终端自动加载-SSH-密钥"><a href="#九、一劳永逸：新开终端自动加载-SSH-密钥" class="headerlink" title="九、一劳永逸：新开终端自动加载 SSH 密钥"></a>九、一劳永逸：新开终端自动加载 SSH 密钥</h2><p>编辑 zsh 配置，不用每次手动执行加载命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">vim ~/.zshrc<br></code></pre></td></tr></table></figure>
+
+<p>文件末尾粘贴：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">eval</span> <span class="hljs-string">&quot;<span class="hljs-subst">$(ssh-agent -s)</span>&quot;</span> &gt; /dev/null<br>ssh-add --apple-use-keychain ~/.ssh/id_ed25519 2&gt;/dev/null<br></code></pre></td></tr></table></figure>
+
+<p>保存生效：<code>Ctrl+O</code> → 回车 → <code>Ctrl+X</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">source</span> ~/.zshrc<br></code></pre></td></tr></table></figure>
+
+
+
+<h1 id="5-大文件夹的-Hexo-文档完整分类-命名规范全总结"><a href="#5-大文件夹的-Hexo-文档完整分类-命名规范全总结" class="headerlink" title="5 大文件夹的 Hexo 文档完整分类 + 命名规范全总结"></a>5 大文件夹的 Hexo 文档完整分类 + 命名规范全总结</h1><h2 id="一、本地文件夹-↔-Hexo-一级-categories-一一对应表"><a href="#一、本地文件夹-↔-Hexo-一级-categories-一一对应表" class="headerlink" title="一、本地文件夹 ↔ Hexo 一级 categories 一一对应表"></a>一、本地文件夹 ↔ Hexo 一级 categories 一一对应表</h2><p>你的 5 个顶层文档文件夹：<code>AI与技术</code>、<code>产品拆解</code>、<code>原型设计</code>、<code>项目复盘</code>、<code>方法论</code></p>
+<p>统一添加数字前缀，控制 Hexo 分类页正序展示，严格一一绑定：</p>
+<table>
+<thead>
+<tr>
+<th align="center">本地顶层文件夹名</th>
+<th align="center">Hexo 一级分类标准写法（categories 第一行）</th>
+<th align="center">排序序号</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">AI 与技术</td>
+<td align="center">01_AI 与技术</td>
+<td align="center">01（优先级最高，技术文档放最前）</td>
+</tr>
+<tr>
+<td align="center">产品拆解</td>
+<td align="center">02_产品拆解</td>
+<td align="center">02</td>
+</tr>
+<tr>
+<td align="center">原型设计</td>
+<td align="center">03_原型设计</td>
+<td align="center">03</td>
+</tr>
+<tr>
+<td align="center">项目复盘</td>
+<td align="center">04_项目复盘</td>
+<td align="center">04</td>
+</tr>
+<tr>
+<td align="center">方法论</td>
+<td align="center">05_方法论</td>
+<td align="center">05</td>
+</tr>
+</tbody></table>
+<p>核心绑定规则：</p>
+<ol>
+<li>文章素材存到哪个本地文件夹，Front-Matter 里<code>categories</code>第一行就填对应带序号名称；</li>
+<li>必须带<code>0x_</code>前缀，无序号会导致归档页面乱序；</li>
+<li>不新增一级分类，所有文章全部归入这 5 个大类。</li>
+</ol>
+<hr>
+<h2 id="二、标准完整-Front-Matter-模板（直接复制复用）"><a href="#二、标准完整-Front-Matter-模板（直接复制复用）" class="headerlink" title="二、标准完整 Front-Matter 模板（直接复制复用）"></a>二、标准完整 Front-Matter 模板（直接复制复用）</h2><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs markdown">---<br><span class="hljs-section"># title：二级序号<span class="hljs-emphasis">_完整中文标题，序号和二级子分类对齐</span></span><br><span class="hljs-emphasis"><span class="hljs-section">title: 01_</span>Hexo SSH部署GitHub全套排坑流程</span><br><span class="hljs-section"># categories 固定两层结构：【一级大类（对应本地顶层文件夹）】→【二级细分专题】</span><br>categories:<br><span class="hljs-bullet">  -</span> 01<span class="hljs-emphasis">_AI与技术</span><br><span class="hljs-emphasis">  - 01_</span>Hexo博客工具<br><span class="hljs-section"># tags：关键词检索标签，英文专有名词首字母大写，中文简洁短语</span><br>tags:<br><span class="hljs-bullet">  -</span> Hexo<br><span class="hljs-bullet">  -</span> GitHub Pages<br><span class="hljs-bullet">  -</span> SSH<br><span class="hljs-bullet">  -</span> 博客部署<br><span class="hljs-section"># index<span class="hljs-emphasis">_img：列表页缩略封面</span></span><br><span class="hljs-emphasis"><span class="hljs-section">index_</span>img: https://cdn.statically.io/gh/PY0909/my-pic-bed/main/img/2026061900100001.jpeg</span><br><span class="hljs-section"># banner<span class="hljs-emphasis">_img：文章详情页顶部大图，无图可删除该行</span></span><br><span class="hljs-emphasis"><span class="hljs-section">banner_</span>img: https://cdn.statically.io/gh/PY0909/my-pic-bed/main/img/2026061900100001.jpeg</span><br><span class="hljs-section"># date：文章首次创建时间，格式固定，永不修改</span><br>date: 2026-06-19 00:10:00<br><span class="hljs-section"># updated：文章修改更新后新增，记录最后编辑时间</span><br>updated: 2026-06-19 00:30:00<br><span class="hljs-section"># excerpt：首页摘要，无则Hexo自动截取正文前200字</span><br>excerpt: 完整解决Hexo推送GitHub超时、HTTP2报错、SSH权限拒绝问题，含全套终端命令<br><span class="hljs-section"># sticky：是否置顶文章，true/false，默认false</span><br>sticky: false<br><span class="hljs-section"># reading<span class="hljs-emphasis">_time：阅读时长，插件展示用，可选</span></span><br><span class="hljs-emphasis"><span class="hljs-section">reading_</span>time: 8</span><br>---<br><br>正文内容……<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="三、5-大一级分类配套二级细分目录（可直接套用）"><a href="#三、5-大一级分类配套二级细分目录（可直接套用）" class="headerlink" title="三、5 大一级分类配套二级细分目录（可直接套用）"></a>三、5 大一级分类配套二级细分目录（可直接套用）</h2><h3 id="1-一级：01-AI-与技术（本地文件夹：AI-与技术）"><a href="#1-一级：01-AI-与技术（本地文件夹：AI-与技术）" class="headerlink" title="1. 一级：01_AI 与技术（本地文件夹：AI 与技术）"></a>1. 一级：01_AI 与技术（本地文件夹：AI 与技术）</h3><p>二级子分类（带 01&#x2F;02 排序前缀）：</p>
+<ul>
+<li><p>01_Hexo 博客工具</p>
+</li>
+<li><p>02_Git &amp; GitHub 操作</p>
+</li>
+<li><p>03_大模型提示词工程</p>
+</li>
+<li><p>04_AIOps &#x2F; Agent 智能体</p>
+</li>
+<li><p>05_开发环境 &amp; 工具配置</p>
+<p>示例文章分类配置：</p>
+</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">categories:</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">01_AI与技术</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">01_Hexo博客工具</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="2-一级：02-产品拆解（本地文件夹：产品拆解）"><a href="#2-一级：02-产品拆解（本地文件夹：产品拆解）" class="headerlink" title="2. 一级：02_产品拆解（本地文件夹：产品拆解）"></a>2. 一级：02_产品拆解（本地文件夹：产品拆解）</h3><p>二级子分类：</p>
+<ul>
+<li><p>01_ToC 互联网产品拆解</p>
+</li>
+<li><p>02_ToB 企业产品拆解</p>
+</li>
+<li><p>03_IAM &#x2F; 零信任安全产品分析</p>
+</li>
+<li><p>04_AI 产品功能拆解</p>
+<p>示例文章分类配置：</p>
+</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">categories:</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">02_产品拆解</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">03_IAM/零信任产品分析</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="3-一级：03-原型设计（本地文件夹：原型设计）"><a href="#3-一级：03-原型设计（本地文件夹：原型设计）" class="headerlink" title="3. 一级：03_原型设计（本地文件夹：原型设计）"></a>3. 一级：03_原型设计（本地文件夹：原型设计）</h3><p>二级子分类：</p>
+<ul>
+<li><p>01_Figma 基础操作规范</p>
+</li>
+<li><p>02_交互原型设计思路</p>
+</li>
+<li><p>03_通用组件库搭建</p>
+</li>
+<li><p>04_高保真输出规范</p>
+<p>示例文章分类配置：</p>
+</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">categories:</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">03_原型设计</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">01_Figma操作规范</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="4-一级：04-项目复盘（本地文件夹：项目复盘）"><a href="#4-一级：04-项目复盘（本地文件夹：项目复盘）" class="headerlink" title="4. 一级：04_项目复盘（本地文件夹：项目复盘）"></a>4. 一级：04_项目复盘（本地文件夹：项目复盘）</h3><p>二级子分类：</p>
+<ul>
+<li><p>01_实习工作项目复盘</p>
+</li>
+<li><p>02_个人练手项目复盘</p>
+</li>
+<li><p>03_面试项目梳理总结</p>
+</li>
+<li><p>04_踩坑问题复盘记录</p>
+<p>示例文章分类配置：</p>
+</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">categories:</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">04_项目复盘</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">01_实习项目复盘</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="5-一级：05-方法论（本地文件夹：方法论）"><a href="#5-一级：05-方法论（本地文件夹：方法论）" class="headerlink" title="5. 一级：05_方法论（本地文件夹：方法论）"></a>5. 一级：05_方法论（本地文件夹：方法论）</h3><p>二级子分类：</p>
+<ul>
+<li><p>01_产品分析通用方法论</p>
+</li>
+<li><p>02_求职 &amp; 学习规划方法论</p>
+</li>
+<li><p>03_笔记 &amp; 写作沉淀方法论</p>
+</li>
+<li><p>04_高效工作流程方法论</p>
+<p>示例文章分类配置：</p>
+</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">categories:</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">05_方法论</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">02_求职学习方法论</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="层级强制约束"><a href="#层级强制约束" class="headerlink" title="层级强制约束"></a>层级强制约束</h3><ol>
+<li>所有文章<code>categories</code>仅允许<strong>两层</strong>，禁止三层及以上，避免 Hexo 分类路由错乱；</li>
+<li>第一层固定绑定 5 个顶层文件夹，第二层对应细分专题；</li>
+<li>一、二级全部带<code>0x_</code>数字前缀，实现全站分类统一排序。</li>
+</ol>
+<hr>
+<h2 id="四、本地-MD-文件命名规范（存放路径：source-posts-）"><a href="#四、本地-MD-文件命名规范（存放路径：source-posts-）" class="headerlink" title="四、本地 MD 文件命名规范（存放路径：source/_posts/）"></a>四、本地 MD 文件命名规范（存放路径：<code>source/_posts/</code>）</h2><h3 id="统一命名格式"><a href="#统一命名格式" class="headerlink" title="统一命名格式"></a>统一命名格式</h3><figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dos">YYYYMMDD_二级分类序号_英文简写.<span class="hljs-built_in">md</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="格式拆解"><a href="#格式拆解" class="headerlink" title="格式拆解"></a>格式拆解</h3><ol>
+<li><code>YYYYMMDD</code>：文章创建日期，用于区分同主题多篇文章；</li>
+<li><code>二级分类序号</code>：和 categories 第二行数字保持一致（01&#x2F;02&#x2F;03）；</li>
+<li><code>英文简写</code>：下划线连接，纯英文，<strong>禁止中文文件名</strong>（规避部署后路径<code>\351\241\271</code>转义乱码）；</li>
+</ol>
+<h3 id="完整示例"><a href="#完整示例" class="headerlink" title="完整示例"></a>完整示例</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">20260619_01_hexo_github_deploy.md    # AI与技术-Hexo博客<br>20260510_03_iam_product_analysis.md # 产品拆解-IAM产品<br>20260401_01_figma_component_lib.md  # 原型设计-Figma组件<br>20260315_01_intern_project_review.md# 项目复盘-实习复盘<br>20260220_02_job_study_method.md     # 方法论-求职学习<br></code></pre></td></tr></table></figure>
+
+<h3 id="禁止行为"><a href="#禁止行为" class="headerlink" title="禁止行为"></a>禁止行为</h3><ul>
+<li>文件名包含中文、空格、<code># &amp; * / ?</code>特殊符号；</li>
+<li>省略日期前缀，无法区分新旧文章。</li>
+</ul>
+<hr>
+<h2 id="五、title-文章标题命名规范"><a href="#五、title-文章标题命名规范" class="headerlink" title="五、title 文章标题命名规范"></a>五、title 文章标题命名规范</h2><h3 id="统一格式"><a href="#统一格式" class="headerlink" title="统一格式"></a>统一格式</h3><figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs haxe">二级分类序号<span class="hljs-literal">_</span>完整中文标题<br></code></pre></td></tr></table></figure>
+
+<h3 id="规范要求"><a href="#规范要求" class="headerlink" title="规范要求"></a>规范要求</h3><ol>
+<li>序号和二级分类数字完全对齐，本地文件夹、分类、标题三者序号统一；</li>
+<li>下划线分隔序号与正文，不用空格；</li>
+<li>标题完整清晰，便于站内检索；</li>
+</ol>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">title: 01_Hexo SSH部署GitHub完整排坑流程<br>title: 03_IAM零信任产品核心功能拆解分析<br>title: 01_Figma通用业务组件库搭建规范<br>title: 01_安恒信息IAM实习项目全流程复盘<br>title: 02_产品经理校招求职长期学习规划方法论<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="六、tags-标签标准化规则"><a href="#六、tags-标签标准化规则" class="headerlink" title="六、tags 标签标准化规则"></a>六、tags 标签标准化规则</h2><ol>
+<li>专有技术名词英文首字母大写：Hexo、SSH、GitHub、Figma、IAM、AI；</li>
+<li>中文标签使用简短四字 &#x2F; 五字短语，不写长句；</li>
+<li>同一类文章复用完全相同标签，不创建同义重复标签（例：不分开写<code>Hexo博客</code>和<code>Hexo</code>）；</li>
+<li>单篇文章标签数量控制在 2~5 个，不宜过多；</li>
+</ol>
+<h3 id="标准示例"><a href="#标准示例" class="headerlink" title="标准示例"></a>标准示例</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">tags:</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">Hexo</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">SSH</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">GitHub</span> <span class="hljs-string">Pages</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">博客部署</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="七、图片与时间字段统一规范"><a href="#七、图片与时间字段统一规范" class="headerlink" title="七、图片与时间字段统一规范"></a>七、图片与时间字段统一规范</h2><h3 id="1-图床图片路径（沿用你现有-CDN）"><a href="#1-图床图片路径（沿用你现有-CDN）" class="headerlink" title="1. 图床图片路径（沿用你现有 CDN）"></a>1. 图床图片路径（沿用你现有 CDN）</h3><p>固定前缀：<code>https://cdn.statically.io/gh/PY0909/my-pic-bed/main/img/</code></p>
+<p>图片文件命名规则：<code>YYYYMMDDHHMMSS随机数字.jpeg</code></p>
+<ul>
+<li>index_img、banner_img 优先使用同一张封面图；</li>
+<li>不使用本地相对路径图片，避免部署后 404。</li>
+</ul>
+<h3 id="2-时间字段"><a href="#2-时间字段" class="headerlink" title="2. 时间字段"></a>2. 时间字段</h3><ul>
+<li><code>date</code>：文章初次创建时间，格式固定<code>YYYY-MM-DD HH:MM:SS</code>，创建后永不修改；</li>
+<li><code>updated</code>：仅文章修改、补充内容时新增，记录最后编辑时间，无修改可删除该行。</li>
+</ul>
+<hr>
+<h2 id="八、避坑总结（结合你之前部署踩过的问题）"><a href="#八、避坑总结（结合你之前部署踩过的问题）" class="headerlink" title="八、避坑总结（结合你之前部署踩过的问题）"></a>八、避坑总结（结合你之前部署踩过的问题）</h2><ol>
+<li>❌ 纯中文无序号分类名：分类归档页排序混乱；</li>
+<li>❌ 中文 MD 文件名：部署后网页路径出现转义乱码；</li>
+<li>❌ categories 超过两层：分类路由、侧边栏目录加载异常；</li>
+<li>❌ _config.yml 使用 https 仓库地址：出现超时、HTTP2 报错；</li>
+<li>✅ 所有分类带 0x_数字前缀，层级和本地文件夹严格对应；</li>
+<li>✅ 统一 SSH 仓库地址推送，网络稳定性更强；</li>
+<li>✅ 本地文件、分类、标题序号三端对齐，文档结构清晰易维护。</li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/01-hexo%E9%85%8D%E7%BD%AE/" class="category-chain-item">01_hexo配置</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/01-hexo%E9%85%8D%E7%BD%AE/%E6%96%B9%E6%B3%95%E8%AE%BA/" class="category-chain-item">方法论</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Prompt/" class="print-no-link">#Prompt</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>01_hexo配置</div>
+      <div>https://py0909.github.io/2026/05/20/方法论/01_hexo配置/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Peng Yue</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年5月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-cc-nc"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="SA - 相同方式共享">
+                    <i class="iconfont icon-cc-sa"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/05/20/AI%E4%B8%8E%E6%8A%80%E6%9C%AF/01AI%E4%BA%A7%E5%93%81_%E6%95%B4%E4%BD%93%E6%A1%86%E6%9E%B6/01AI%E4%BA%A7%E5%93%81_%E6%95%B4%E4%BD%93%E6%A1%86%E6%9E%B6/" title="01AI产品_整体架构">
+                        <span class="hidden-mobile">01AI产品_整体架构</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>Peng Yue</span> <i class="iconfont icon-love"></i> <span>Product Manager</span> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
