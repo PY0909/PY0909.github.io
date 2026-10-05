@@ -26,12 +26,14 @@
 <meta property="og:site_name" content="Peng Yue的产品思考博客">
 <meta property="og:description" content="代码学习计划（六阶段）知识点详解（教材版）：怎么读一个研究代码库——自顶向下双向阅读、逐行验证模型公式、契约测试与风险校准，所有行号可现场对照。">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://py0909.github.io/images/%E4%BC%A0%E6%84%9F%E5%99%A8.jpg">
 <meta property="article:published_time" content="2026-10-06T01:02:00.000Z">
-<meta property="article:modified_time" content="2026-10-05T17:18:17.261Z">
+<meta property="article:modified_time" content="2026-10-05T17:27:06.614Z">
 <meta property="article:author" content="Peng Yue">
 <meta property="article:tag" content="时序预测">
 <meta property="article:tag" content="论文研读">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://py0909.github.io/images/%E4%BC%A0%E6%84%9F%E5%99%A8.jpg">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -235,7 +237,7 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+     style="background: url('/images/%E4%BC%A0%E6%84%9F%E5%99%A8.jpg') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
@@ -664,7 +666,7 @@ c-10 4-16 7.7-18 11 0 8.7 6 14.3 18 17 47.3 18.7 87.8 47 121.5 85S196 441.3 208
 <p><strong>【专业】</strong> 三件套的共同设计：<strong>机器可判据</strong>（JSON verdict&#x2F;SHA 比对&#x2F;退出码），不靠人眼。这就是”stage-gates”（阶段 5）的执行底座——门禁不是文档约定，是 CI 会拦的关卡。</p>
 <hr>
 <h1 id="§5-阶段-5：门禁与统计"><a href="#§5-阶段-5：门禁与统计" class="headerlink" title="§5 阶段 5：门禁与统计"></a>§5 阶段 5：门禁与统计</h1><h2 id="5-1-stage-gates-门禁机制"><a href="#5-1-stage-gates-门禁机制" class="headerlink" title="5.1 stage-gates 门禁机制"></a>5.1 stage-gates 门禁机制</h2><p><strong>【专业】</strong> <code>plan/stage-gates.md</code>（已核实原文）注册 D0–D5 门禁的状态机：<code>open / closed / stale</code> 三态，YAML 注册表（schema ch3-gates-v1）是唯一结构化记录，当前 D0–D2 已关闭、D3–D5 open。evidence record 固定字段：<code>gate_id / check_id / previous_status / new_status / depends_on / input_sha_set / command / exit_code / evidence_relpath / evidence_sha256 / checked_at_utc / supersedes</code>。<strong>最有价值的机制是 stale 传播</strong>：gate-specific validator 每次重算排序后的 canonical <code>input_sha_set</code>，与已关闭记录不一致 → 该 gate 自动改 <code>stale</code>、checkbox 恢复 <code>[ ]</code>，且<strong>沿依赖图递归标记全部下游 gate</strong>、非零退出码阻断继续——输入变了，门禁不可能”假装还关着”。<strong>心智模型</strong>：门禁&#x3D;纯函数 <code>gate(input_sha_set, evidence) -&gt; &#123;closed, stale&#125;</code>，与你 validate_results 的退出码、CI 的 status check 同构；stale 记录用 <code>supersedes</code> 指向旧记录 SHA，只追加不覆盖——证据链本身也是 append-only 的。</p>
-<h2 id="5-2-GO-NO-GO-判定"><a href="#5-2-GO-NO-GO-判定" class="headerlink" title="5.2 GO&#x2F;NO-GO 判定"></a>5.2 GO&#x2F;NO-GO 判定</h2><p><strong>【专业】</strong> <code>plan/ch3_central_go_no_go.json</code> 的判定结构：中心条件（MetroPT-3 <a href="mailto:&#x6d;&#105;&#x78;&#101;&#x64;&#64;&#48;&#x2e;&#x33;&#x30;">mixed@0.30</a>）上 kst_light_v2 vs 全部基线的指标对比+统计判据，结论 GO（test MAE 0.2131 全场最低、领先 li_tcn 17.3%，六 run validator 全绿——git 5f08fe6）。<strong>学习点</strong>：GO&#x2F;NO-GO 是”预注册的决策规则”——先写清楚什么算过（领先幅度+验收全绿），跑完只对照不解释。这防止”结果出来再找说法”，与风险区间的预注册同一思想。</p>
+<h2 id="5-2-GO-NO-GO-判定"><a href="#5-2-GO-NO-GO-判定" class="headerlink" title="5.2 GO&#x2F;NO-GO 判定"></a>5.2 GO&#x2F;NO-GO 判定</h2><p><strong>【专业】</strong> <code>plan/ch3_central_go_no_go.json</code> 的判定结构：中心条件（MetroPT-3 <a href="mailto:&#109;&#105;&#120;&#101;&#100;&#x40;&#48;&#x2e;&#51;&#x30;">mixed@0.30</a>）上 kst_light_v2 vs 全部基线的指标对比+统计判据，结论 GO（test MAE 0.2131 全场最低、领先 li_tcn 17.3%，六 run validator 全绿——git 5f08fe6）。<strong>学习点</strong>：GO&#x2F;NO-GO 是”预注册的决策规则”——先写清楚什么算过（领先幅度+验收全绿），跑完只对照不解释。这防止”结果出来再找说法”，与风险区间的预注册同一思想。</p>
 <h2 id="5-3-bootstrap-配对重采样（experiment-protocol-md-L147，协议原文已核实）"><a href="#5-3-bootstrap-配对重采样（experiment-protocol-md-L147，协议原文已核实）" class="headerlink" title="5.3 bootstrap 配对重采样（experiment-protocol.md L147，协议原文已核实）"></a>5.3 bootstrap 配对重采样（experiment-protocol.md L147，协议原文已核实）</h2><p><strong>【公式】</strong> 协议规定的配对比较显著性方法：</p>
 <ol>
 <li>对自然单位（FD004&#x3D;engine、TEP&#x3D;<code>faultNumber:simulationRun</code>）<strong>有放回</strong>抽样得到重采样集合 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>U</mi><mrow><mo stretchy="false">(</mo><mi>b</mi><mo stretchy="false">)</mo></mrow></msup></mrow><annotation encoding="application/x-tex">U^{(b)}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.888em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.109em;">U</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.888em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathnormal mtight">b</span><span class="mclose mtight">)</span></span></span></span></span></span></span></span></span></span></span></span>，两个模型<strong>共用同一份抽样索引</strong>（配对！）；</li>
