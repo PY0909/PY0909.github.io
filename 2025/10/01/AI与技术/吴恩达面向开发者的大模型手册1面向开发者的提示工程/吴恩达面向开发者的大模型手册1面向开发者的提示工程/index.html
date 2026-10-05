@@ -28,9 +28,10 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://py0909.github.io/images/llmcookbook.jpg">
 <meta property="article:published_time" content="2025-09-30T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-12-23T15:39:11.073Z">
+<meta property="article:modified_time" content="2026-10-05T16:55:01.134Z">
 <meta property="article:author" content="Peng Yue">
-<meta property="article:tag" content="Prompt">
+<meta property="article:tag" content="Prompt工程">
+<meta property="article:tag" content="大模型">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://py0909.github.io/images/llmcookbook.jpg">
   
@@ -49,6 +50,8 @@
   <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <link  rel="stylesheet" href="https://registry.npmmirror.com/katex/0.18.10/files/dist/katex.min.css" />
 
 
 
@@ -390,8 +393,8 @@
 <p>以下是导致这一现象的 <strong>4 个核心原因</strong>：</p>
 <h5 id="1-浮点数计算的随机性-Floating-Point-Arithmetic"><a href="#1-浮点数计算的随机性-Floating-Point-Arithmetic" class="headerlink" title="1. 浮点数计算的随机性 (Floating Point Arithmetic)"></a>1. 浮点数计算的随机性 (Floating Point Arithmetic)</h5><p>这是最底层、最物理的原因。</p>
 <ul>
-<li><strong>并行计算</strong>：大模型是在成千上万个 GPU 上并行运行的。在神经网络的加法运算中，由于<strong>浮点数加法不满足结合律</strong>（即 $(A + B) + C$ 不一定等于 $A + (B + C)$），计算顺序的微小改变会导致结果最后几位的精度差异。</li>
-<li><strong>累积效应</strong>：虽然这个差异极小（比如 $10^{-7}$），但经过大模型上百层的非线性激活函数放大后，可能会让两个 Token 的概率发生逆转（例如 Token A 从 0.3500001 变成 0.3499999，而 Token B 变成了 0.3500000）。</li>
+<li><strong>并行计算</strong>：大模型是在成千上万个 GPU 上并行运行的。在神经网络的加法运算中，由于<strong>浮点数加法不满足结合律</strong>（即 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>A</mi><mo>+</mo><mi>B</mi><mo stretchy="false">)</mo><mo>+</mo><mi>C</mi></mrow><annotation encoding="application/x-tex">(A + B) + C</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0502em;">B</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0715em;">C</span></span></span></span> 不一定等于 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>+</mo><mo stretchy="false">(</mo><mi>B</mi><mo>+</mo><mi>C</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">A + (B + C)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.0502em;">B</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0715em;">C</span><span class="mclose">)</span></span></span></span>），计算顺序的微小改变会导致结果最后几位的精度差异。</li>
+<li><strong>累积效应</strong>：虽然这个差异极小（比如 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>10</mn><mrow><mo>−</mo><mn>7</mn></mrow></msup></mrow><annotation encoding="application/x-tex">10^{-7}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">7</span></span></span></span></span></span></span></span></span></span></span></span>），但经过大模型上百层的非线性激活函数放大后，可能会让两个 Token 的概率发生逆转（例如 Token A 从 0.3500001 变成 0.3499999，而 Token B 变成了 0.3500000）。</li>
 </ul>
 <h5 id="2-GPU-算子的非确定性-Nondeterministic-CUDA-Kernels"><a href="#2-GPU-算子的非确定性-Nondeterministic-CUDA-Kernels" class="headerlink" title="2. GPU 算子的非确定性 (Nondeterministic CUDA Kernels)"></a>2. GPU 算子的非确定性 (Nondeterministic CUDA Kernels)</h5><p>大模型依赖 NVIDIA 的 CUDA 库来运行。</p>
 <ul>
@@ -476,7 +479,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/Prompt/" class="print-no-link">#Prompt</a>
+        <a href="/tags/Prompt%E5%B7%A5%E7%A8%8B/" class="print-no-link">#Prompt工程</a>
+      
+        <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" class="print-no-link">#大模型</a>
       
     </div>
   
@@ -607,6 +612,11 @@
 
 
   
+
+
+  
+  
+
 
 
 

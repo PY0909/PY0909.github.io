@@ -1,0 +1,779 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/images/avatar.jpg">
+  <link rel="icon" href="/images/avatar.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Peng Yue">
+  <meta name="keywords" content="Axure/Figma、Xmind、SQL、Python/Java、Git、Visio、Tableau、Cursor、Gemini、Prompt Engineering、Dify、Coze、agent">
+  
+    <meta name="description" content="略读笔记：十篇论文的八项核心与速读解读——Latent ODE、GraFITi、TCN、MQ-RNN、TimeGrad、t-PatchGNN、Platt、Zadrozny-Elkan、Kendall &amp; Gal、mTAN。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="研读笔记（三）略读 B1-B10">
+<meta property="og:url" content="https://py0909.github.io/2026/10/06/%E6%96%B9%E6%B3%95%E8%AE%BA/%E7%A0%94%E8%AF%BB%E7%AC%94%E8%AE%B0-%E7%95%A5%E8%AF%BBB1-B10/index.html">
+<meta property="og:site_name" content="Peng Yue的产品思考博客">
+<meta property="og:description" content="略读笔记：十篇论文的八项核心与速读解读——Latent ODE、GraFITi、TCN、MQ-RNN、TimeGrad、t-PatchGNN、Platt、Zadrozny-Elkan、Kendall &amp; Gal、mTAN。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-10-06T01:05:00.000Z">
+<meta property="article:modified_time" content="2026-10-05T17:18:17.270Z">
+<meta property="article:author" content="Peng Yue">
+<meta property="article:tag" content="时序预测">
+<meta property="article:tag" content="论文研读">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>研读笔记（三）略读 B1-B10 - Peng Yue的产品思考博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <link  rel="stylesheet" href="https://registry.npmmirror.com/katex/0.18.10/files/dist/katex.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"py0909.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Peng Yue的产品笔记</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E9%A1%B9%E7%9B%AE%E5%A4%8D%E7%9B%98/" target="_self">
+                <i class="iconfont icon-ppt"></i>
+                <span>项目复盘</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/AI%E4%B8%8E%E6%8A%80%E6%9C%AF/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>AI探索</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E4%BA%A7%E5%93%81%E6%8B%86%E8%A7%A3/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>产品拆解</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E6%96%B9%E6%B3%95%E8%AE%BA/" target="_self">
+                <i class="iconfont icon-book-fill"></i>
+                <span>方法论</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E5%8E%9F%E5%9E%8B%E8%AE%BE%E8%AE%A1/" target="_self">
+                <i class="iconfont icon-pen"></i>
+                <span>原型设计</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="研读笔记（三）略读 B1-B10"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Peng Yue
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-10-06 09:05" pubdate>
+          2026年10月6日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          52 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">研读笔记（三）略读 B1-B10</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="研读笔记（三）：略读-B1–B10-·-按第一步-第二步整理（精简版）"><a href="#研读笔记（三）：略读-B1–B10-·-按第一步-第二步整理（精简版）" class="headerlink" title="研读笔记（三）：略读 B1–B10 · 按第一步+第二步整理（精简版）"></a>研读笔记（三）：略读 B1–B10 · 按第一步+第二步整理（精简版）</h1><blockquote>
+<p>体例同前两篇，但按任务单定位只走第 1、8 步外加精简第二步：每篇 &#x3D; 八项核心（PDF 实测）+ 基础知识（3–4 条）+ 通俗解读（短）+ 术语表。批判四问在《论文阅读任务单.md》B 组。读一篇 ≤ 半天。</p>
+</blockquote>
+<hr>
+<h1 id="B1-Latent-ODE（NeurIPS-2019）"><a href="#B1-Latent-ODE（NeurIPS-2019）" class="headerlink" title="B1 Latent ODE（NeurIPS 2019）"></a>B1 Latent ODE（NeurIPS 2019）</h1><p><strong>八项</strong>：1《不规则采样时间序列的隐神经常微分方程》2 机器学习&#x2F;连续时间模型 3 Yulia Rubanova、Ricky T. Q. Chen、David Duvenaud（多伦多大学 + Vector Institute）4 NeurIPS 2019（arXiv:1907.03907，2019-07）5 背景：非均匀间隔时序难以用标准 RNN 建模 6 创新：把 RNN 的隐动态推广为<strong>常微分方程（ODE）定义的连续时间演化</strong>——ODE-RNN 编码器（观测点用 GRU 更新、间隙用 ODE 演化）+ 隐空间 ODE 解码器，可在任意时刻查询；用<strong>泊松过程似然</strong>处理不规则观测 7 数据集：PhysioNet、Human Activity（实测）8 综述：连续时间流派代表——从 GRU-D（衰减）到 ODE（求解器）到 mTAN（注意力），三条”吃不规则时间”的路线。</p>
+<p><strong>基础</strong>：ODE 直觉（状态变化率方程，欧拉法 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>h</mi><mrow><mi>t</mi><mo>+</mo><mi mathvariant="normal">Δ</mi></mrow></msub><mo>=</mo><msub><mi>h</mi><mi>t</mi></msub><mo>+</mo><mi mathvariant="normal">Δ</mi><mo>⋅</mo><mi>f</mi><mo stretchy="false">(</mo><msub><mi>h</mi><mi>t</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">h_{t+\Delta}=h_t+\Delta\cdot f(h_t)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.9028em;vertical-align:-0.2083em;"></span><span class="mord"><span class="mord mathnormal">h</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span><span class="mbin mtight">+</span><span class="mord mtight">Δ</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2083em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">h</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2806em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord">Δ</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.1076em;">f</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">h</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2806em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> 一行就是数值解）；变分自编码器（解码器是 ODE 的 VAE）；泊松过程（观测时刻本身随机）。<br><strong>通俗解读</strong>：论文三步——①把”两次观测之间隐状态怎么变”写成一个 ODE（学习向量场）；②编码器每见一个观测就用 GRU 更新一次（ODE-RNN）；③解码器从隐空间再跑一个 ODE 生成序列，观测时刻用泊松似然打分。代价：每步都要数值积分，慢且梯度穿求解器（你仓库的 Euler 适配版梯度爆到 6.6e7 的病根就在这）。<br><strong>术语</strong>：神经 ODE、ODE-RNN、欧拉积分、泊松过程似然、潜在隐空间。</p>
+<h1 id="B2-GraFITi（AAAI-2024）"><a href="#B2-GraFITi（AAAI-2024）" class="headerlink" title="B2 GraFITi（AAAI 2024）"></a>B2 GraFITi（AAAI 2024）</h1><p><strong>八项</strong>：1《用图预测不规则采样时间序列》2 机器学习&#x2F;不规则时序 3 Vijaya Krishna Yalavarthi、Kiran Madhusudhanan、Randolf Sholz、Nourhan Ahmed、Johannes Burchert、Shayan Javed（ISMLL）、Stefan Born（TU Berlin）、Lars Schmidt-Thieme 4 AAAI 2024 5 背景：IMTS 预测的图方法在精度&#x2F;效率上还有空间 6 创新：把时序事件表示为<strong>时间-值坐标系上的二部图</strong>（时间节点×取值节点，观测是边），消息传递直接在图上做，预测查询节点的值——比此前图方法（t-PatchGNN）更快更准 7 数据集：MIMIC-III、PhysioNet、USHCN（实测）8 综述：图流派最新代表；其作者团队的下一作就是 ProFITi（点预测→联合分布）。</p>
+<p><strong>基础</strong>：二分图&#x2F;消息传递（节点收邻居信息更新自身）；”把非欧数据变成图”的通用套路。<br><strong>通俗解读</strong>：核心一步是<strong>表示</strong>——把”第 t 秒某通道取值 v”画成”时间节点 t—值节点 v”的一条边，整个不规则多变量历史变成一张稀疏二部图；GNN 在图上传播信息后，直接读”查询时刻节点”的表示出预测。不规则时间不再需要插值或 ODE——图天然是稀疏的。<br><strong>术语</strong>：二部图、消息传递、时间-值节点、查询节点。</p>
+<h1 id="B3-TCN（arXiv-2018）"><a href="#B3-TCN（arXiv-2018）" class="headerlink" title="B3 TCN（arXiv 2018）"></a>B3 TCN（arXiv 2018）</h1><p><strong>八项</strong>：1《通用卷积与循环网络在序列建模上的实证评估》2 机器学习&#x2F;序列建模 3 Shaojie Bai、J. Zico Kolter、Vladlen Koltun（CMU+Intel）4 arXiv:1803.01271（2018，非会议论文但引用极高）5 背景：序列建模被默认等同于 RNN，缺系统对照 6 创新：给出 <strong>TCN 通用架构</strong>（因果卷积+膨胀+残差）并在多任务上证明 TCN 全面优于 LSTM&#x2F;GRU，同时分析两者的内存&#x2F;时长权衡 7 数据集：多个序列任务（合成+真实，词级&#x2F;字符级&#x2F;音乐等）8 综述：卷积派翻身之作；此后的时序卷积基线大多沿用其骨架。</p>
+<p><strong>基础</strong>：因果卷积（只看过去：卷积后砍掉”偷看的”padding）；膨胀（dilation：核之间跳着采，指数扩大感受野）；残差块。<br><strong>通俗解读</strong>：TCN 三件套——因果（不看未来）、膨胀（少参数看长史）、残差（深层可训）。与 RNN 相比可并行训练、梯度不经过时间步链式（无 BPTT 爆炸；BPTT&#x3D;沿时间展开的反向传播，RNN 训练的固有方式，链长则梯度不稳）；代价是感受野固定。<strong>对照你仓库</strong>：适配版把膨胀恒设 1，感受野只有 17 步——“TCN 看不长”在这份实现里是字面意义的真。<br><strong>术语</strong>：因果卷积、膨胀卷积、感受野、残差时序块、Chomp（砍 padding）。</p>
+<h1 id="B4-MQ-RNN（NeurIPS-2017）"><a href="#B4-MQ-RNN（NeurIPS-2017）" class="headerlink" title="B4 MQ-RNN（NeurIPS 2017）"></a>B4 MQ-RNN（NeurIPS 2017）</h1><p><strong>八项</strong>：1《多视角分位数循环预测器》2 机器学习&#x2F;概率预测（Amazon）3 Ruofeng Wen、Kari Torkkola、Balakrishnan Narayanaswamy、Dhruv Madeka（Amazon）4 NeurIPS 2017（Time Series Workshop；arXiv:1711.11053）5 背景（摘要原文）：现实预测&#x3D;多相关序列+多种协变量（动态历史特征&#x2F;静态属性&#x2F;已知未来事件）+长依赖+<strong>多步长视角+精确预测区间</strong>（风险评估用）6 创新：Seq2Seq 的表达力 + <strong>分位数回归的非参数性</strong> + <strong>直接多视角预测</strong>的效率；新训练方案 <strong>forking-sequences</strong>（一条长序列”分叉”出多段训练样例）提升稳定性 7 数据集：Amazon 商品需求 + 公开竞赛电力价格&#x2F;负荷预测（摘要原文）8 综述：分位数概率预测范式代表作（之后 DeepAR&#x2F;TimeGrad 走似然路线）。</p>
+<p><strong>基础</strong>：分位数回归与 pinball 损失（<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>max</mi><mo>⁡</mo><mo stretchy="false">(</mo><mi>τ</mi><mi>e</mi><mo separator="true">,</mo><mo stretchy="false">(</mo><mi>τ</mi><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo><mi>e</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\max(\tau e,(\tau-1)e)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mop">max</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.1132em;">τ</span><span class="mord mathnormal">e</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.1132em;">τ</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mord mathnormal">e</span><span class="mclose">)</span></span></span></span>）；直接多步 vs 递归多步；协变量（静态&#x2F;动态&#x2F;未来已知）。<br><strong>通俗解读</strong>：encoder 读历史，decoder 出 P 步；关键设计是<strong>旁路小网络（future decoder）<strong>在预测期每个时刻辅助主 decoder，让”远期预测”不至于全靠一个隐状态硬扛；损失&#x3D;各分位 pinball 之和。<strong>缺陷</strong>：各分位数独立预测会</strong>交叉</strong>（90% 分位低于 50% 分位的荒谬），只能靠正则缓解——你的 QuantileHead 用 softplus 累加从结构上消灭了交叉。<br><strong>术语</strong>：分位数回归、pinball 损失、直接多视角、forking-sequences、分位数交叉。</p>
+<h1 id="B5-TimeGrad（ICML-2021）"><a href="#B5-TimeGrad（ICML-2021）" class="headerlink" title="B5 TimeGrad（ICML 2021）"></a>B5 TimeGrad（ICML 2021）</h1><p><strong>八项</strong>：1《多变量概率时序预测的自回归去噪扩散模型》2 机器学习&#x2F;概率预测 3 Kashif Rasul、Calvin Seward、Ingmar Schuster、Roland Vollgraf（Zalando）4 ICML 2021 5 背景：概率预测需要表达复杂分布，高斯似然不够 6 创新：<strong>扩散模型</strong>当”分布头”——每步对当前值的<strong>加噪-去噪</strong>过程建模条件分布，自回归步进；CSDI 同期把扩散用于插补 7 数据集：Electricity、Traffic、Wikipedia、Solar、Exchange-rate（实测）8 综述：扩散流派开端；与流模型同属”非高斯分布建模”，路线是迭代去噪 vs 可逆变换。</p>
+<p><strong>基础</strong>：扩散模型直觉（加噪→学逆过程去噪；采样&#x3D;多步迭代）；ELBO&#x2F;简化目标；自回归条件（每步条件在历史+上一步采样）。<br><strong>通俗解读</strong>：把 DeepAR 的”高斯似然头”换成”扩散头”：预测每步的分布不再假设形状，而是学”从噪声还原该步真值”的去噪链；推理时每个时间步要做几十到上百次去噪——<strong>慢</strong>是主要代价。<br><strong>术语</strong>：扩散&#x2F;去噪、噪声调度、ELBO、条件扩散、采样步数。</p>
+<h1 id="B6-t-PatchGNN（ICLR-2022）"><a href="#B6-t-PatchGNN（ICLR-2022）" class="headerlink" title="B6 t-PatchGNN（ICLR 2022）"></a>B6 t-PatchGNN（ICLR 2022）</h1><p><strong>八项</strong>：1《面向不规则采样多变量时间序列的图引导网络》2 机器学习&#x2F;不规则时序 3 Xiang Zhang（哈佛）等 4 ICLR 2022 5 背景：不规则时序上插补&#x2F;分类&#x2F;回归需要统一高效架构 6 创新：<strong>时间自适应图 + patch</strong>——把序列切成 patch，自适应构建 patch 间图，用 graph neural ODE 建模连续演化 7 数据集：PhysioNet、Human Activity、MIMIC、USHCN 等（实测）8 综述：patch+图+ODE 三合一的混合流派；KAFNet 的代码基座（其 README 致谢）。</p>
+<p><strong>基础</strong>：patch（同 A7）、图神经 ODE（图上的连续演化）、自适应邻接（学出来的图结构）。<br><strong>通俗解读</strong>：先 patch 化解决”点太碎”，再在 patch 之间学一张图解决”谁和谁相关”，最后用 ODE 解决”时间不规则”——三个流派各取一件；代价是三个机制的复杂度叠加。<br><strong>术语</strong>：patch、自适应图、graph neural ODE、插补&#x2F;分类统一框架。</p>
+<h1 id="B7-Platt-1999"><a href="#B7-Platt-1999" class="headerlink" title="B7 Platt 1999"></a>B7 Platt 1999</h1><p><strong>八项</strong>：1《支持向量机的概率输出》（与正则化似然方法的比较）2 机器学习&#x2F;分类校准 3 John C. Platt（微软研究院）4 1999，《Advances in Large Margin Classifiers》收录 5 背景：SVM 只给决策分（间隔符号），下游需要真概率 6 创新：在 SVM 分数上拟合<strong>一元 sigmoid</strong> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mi>σ</mi><mo stretchy="false">(</mo><mi>A</mi><mi>f</mi><mo>+</mo><mi>B</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">p=\sigma(Af+B)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">p</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">σ</span><span class="mopen">(</span><span class="mord mathnormal">A</span><span class="mord mathnormal" style="margin-right:0.1076em;">f</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0502em;">B</span><span class="mclose">)</span></span></span></span>（在验证集上最大化似然），参数只有 2 个、小样本稳；与正则化似然方法对比精度相当但更简 7 数据集：三个数据挖掘风格数据集（原文 §4）8 综述：校准研究起点——此后 isotonic（Zadrozny-Elkan 2002）、温度缩放（现代 NN 标配）沿此展开。</p>
+<p><strong>基础</strong>：sigmoid 函数、验证集拟合、极大似然。<br><strong>通俗解读</strong>：一页公式：把 SVM 的原始分 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi></mrow><annotation encoding="application/x-tex">f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.1076em;">f</span></span></span></span> 过一个可学习的 sigmoid 变成概率；A&lt;0 时分越大概率越大。<strong>局限</strong>：sigmoid 形状假设强，现代深度网络的过度自信往往拟合不动（温度缩放 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mi>σ</mi><mo stretchy="false">(</mo><mi>z</mi><mi mathvariant="normal">/</mi><mi>T</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">p=\sigma(z/T)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">p</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">σ</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.044em;">z</span><span class="mord">/</span><span class="mord mathnormal" style="margin-right:0.1389em;">T</span><span class="mclose">)</span></span></span></span> 是更常用的补丁）。<br><strong>术语</strong>：Platt scaling、校准曲线、sigmoid 拟合、温度缩放（延伸）。</p>
+<h1 id="B8-Zadrozny-Elkan（ICML-2002）"><a href="#B8-Zadrozny-Elkan（ICML-2002）" class="headerlink" title="B8 Zadrozny-Elkan（ICML 2002）"></a>B8 Zadrozny-Elkan（ICML 2002）</h1><p><strong>八项</strong>：1《从决策树和朴素贝叶斯获得校准的概率估计》2 机器学习&#x2F;分类校准 3 Bianca Zadrozny、Charles Elkan（UCSD）4 ICML 2002 5 背景：树与朴素贝叶斯的概率输出系统性偏（树在叶子稀疏处走向极端）6 创新：把 <strong>isotonic 回归</strong>（保序阶梯函数拟合）用于概率校准，并给出多类组合方案；数据多时优于 sigmoid 7 数据集：标准 UCI 类基准 8 综述：与 Platt 构成”参数式 vs 非参数式”校准两极；scikit-learn 的 <code>CalibratedClassifierCV(method=&#39;isotonic&#39;)</code> 即源于此。</p>
+<p><strong>基础</strong>：保序回归（拟合单调函数的凸优化，PAV 算法）；”校准&#x3D;分数到真实频率的映射”。<br><strong>通俗解读</strong>：把样本按分数排序，用阶梯函数去贴合实际正确率——分数单调、阶梯灵活；<strong>代价</strong>：数据少时台阶过拟合、分数范围外无法外推（你的 PlattCalibrator&#x2F;isotonic 双实现的对照即此）。<br><strong>术语</strong>：isotonic 回归、PAV 算法、保序、校准图、外推。</p>
+<h1 id="B9-Kendall-Gal-2017（NeurIPS）"><a href="#B9-Kendall-Gal-2017（NeurIPS）" class="headerlink" title="B9 Kendall &amp; Gal 2017（NeurIPS）"></a>B9 Kendall &amp; Gal 2017（NeurIPS）</h1><p><strong>八项</strong>：1《贝叶斯深度学习中我们需要哪些不确定性？——面向计算机视觉》2 机器学习&#x2F;计算机视觉&#x2F;不确定性 3 Alex Kendall、Yarin Gal（剑桥大学）4 NeurIPS 2017（arXiv:1703.04977）5 背景：视觉任务（深度回归&#x2F;语义分割）需要区分”数据本身的噪声”与”模型的无知” 6 创新：统一框架下区分并同时建模 <strong>aleatoric（偶然不确定性&#x3D;数据固有噪声，用异方差 NLL 学）</strong> 与 <strong>epistemic（认知不确定性&#x3D;模型无知，用 MC dropout 估计）</strong>，两者相加合成总不确定性 7 数据集：CamVid、NYUv2（实测高频）8 综述：不确定性分解的引用标准——此后所有”风险&#x2F;安全应用”论文的动机段都引它。</p>
+<p><strong>基础</strong>：异方差（噪声随输入变化）；MC dropout（测试时也开 dropout，多次前向取统计）；两种不确定性的直觉（ Ale&#x3D;戴着眼镜拍糊的照片；Epi&#x3D;没见过的路）。<br><strong>通俗解读</strong>：损失&#x3D;异方差高斯 NLL（学每个像素的噪声 σ）+ dropout 采样方差（学模型不会）；把 σ 图与方差图相加出”总不确定图”。<strong>对照你的 RiskHead</strong>：它吃”分布宽度&#x2F;分位宽”&#x3D;aleatoric 侧的风险定义——引用本文立论”预测分布的宽度本身是风险信号”。<br><strong>术语</strong>：aleatoric&#x2F;epistemic、异方差、MC dropout、总不确定性&#x3D;二者之和。</p>
+<h1 id="B10-mTAN（ICLR-2021）"><a href="#B10-mTAN（ICLR-2021）" class="headerlink" title="B10 mTAN（ICLR 2021）"></a>B10 mTAN（ICLR 2021）</h1><p><strong>八项</strong>：1《面向不规则采样时间序列的多时间注意力网络》2 机器学习&#x2F;不规则时序 3 Satya Narayan Shukla、Benjamin M. Marlin（马萨诸塞大学阿默斯特）4 ICLR 2021 5 背景：不规则+稀疏+多变量的医疗时序；现有方法处理连续时间的方式各有局限 6 创新：<strong>多时间注意力（mTAN）</strong>——可学习的连续时间核函数生成随时间变化的注意力”时间嵌入”，在一组可学习<strong>参考点</strong>上重表示序列；同一模块可当分类&#x2F;回归编码器，也可进 seq2seq 做插补与外推 7 数据集：MIMIC-III、PhysioNet、Human Activity（实测）8 综述：注意力流派处理不规则时间的代表作（ProFITi&#x2F;KAFNet 的对照坐标）。</p>
+<p><strong>基础</strong>：time2vec 式时间嵌入（时间的可学习函数）；核注意力（注意力权重&#x3D;时间核）；参考点（query 网格）。<br><strong>通俗解读</strong>：给注意力装上”时间表”——key 与 query 的时间差过一个可学习核，直接变成注意力偏置；序列在选定的参考点上被”重新表达”，不规则问题被吸收进核函数。<strong>对照</strong>：你的 TTKMN 用高斯核做时间池化、mTAN 用核做注意力——同族思想（可学习时间核）的两种用法，Ch2 好段落。<br><strong>术语</strong>：时间核、参考点、多时间注意力、time embedding。</p>
+<hr>
+<h2 id="使用说明"><a href="#使用说明" class="headerlink" title="使用说明"></a>使用说明</h2><ul>
+<li>每篇流程：读本笔记（10 分钟）→ AI 总结对照八项 → 填记录表基本信息 → 把”对照”一句抄进相关工作草稿池。</li>
+<li>B1–B6 与源码对照：B1↔<code>baselines/point.py ODERNNPoint</code>、B2↔概率矩阵 <code>grafiti_gaussian</code>、B3↔<code>CausalTCN</code>、B10↔registry not_implemented 项。</li>
+<li>十篇读完的标志：能对着 Ch2 的”流派地图”（衰减&#x2F;ODE&#x2F;注意力&#x2F;图&#x2F;patch&#x2F;流&#x2F;扩散&#x2F;分位数）说出每篇站在哪个格子里。</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%96%B9%E6%B3%95%E8%AE%BA/" class="category-chain-item">方法论</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%97%B6%E5%BA%8F%E9%A2%84%E6%B5%8B/" class="print-no-link">#时序预测</a>
+      
+        <a href="/tags/%E8%AE%BA%E6%96%87%E7%A0%94%E8%AF%BB/" class="print-no-link">#论文研读</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>研读笔记（三）略读 B1-B10</div>
+      <div>https://py0909.github.io/2026/10/06/方法论/研读笔记-略读B1-B10/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Peng Yue</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年10月6日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-cc-nc"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="SA - 相同方式共享">
+                    <i class="iconfont icon-cc-sa"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/10/06/%E6%96%B9%E6%B3%95%E8%AE%BA/%E7%A0%94%E8%AF%BB%E7%AC%94%E8%AE%B0-%E4%B8%AD%E6%96%8712%E7%AF%87/" title="研读笔记（四）中文 12 篇">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">研读笔记（四）中文 12 篇</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/10/06/%E6%96%B9%E6%B3%95%E8%AE%BA/%E7%A0%94%E8%AF%BB%E7%AC%94%E8%AE%B0-%E7%B2%BE%E8%AF%BBA5-A8/" title="研读笔记（二）精读 A5-A8">
+                        <span class="hidden-mobile">研读笔记（二）精读 A5-A8</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>Peng Yue</span> <i class="iconfont icon-love"></i> <span>Product Manager</span> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

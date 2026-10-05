@@ -1,0 +1,946 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/images/avatar.jpg">
+  <link rel="icon" href="/images/avatar.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Peng Yue">
+  <meta name="keywords" content="Axure/Figma、Xmind、SQL、Python/Java、Git、Visio、Tableau、Cursor、Gemini、Prompt Engineering、Dify、Coze、agent">
+  
+    <meta name="description" content="广东财经大学24级，擅长各项产品技能，专注b端产品与AI落地。擅长IAM身份管理、RAG知识库构建与大模型应用。记录产品思维与技术探索。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Peng Yue的产品思考博客">
+<meta property="og:url" content="https://py0909.github.io/page/2/index.html">
+<meta property="og:site_name" content="Peng Yue的产品思考博客">
+<meta property="og:description" content="广东财经大学24级，擅长各项产品技能，专注b端产品与AI落地。擅长IAM身份管理、RAG知识库构建与大模型应用。记录产品思维与技术探索。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="Peng Yue">
+<meta property="article:tag" content="Axure&#x2F;Figma、Xmind、SQL、Python&#x2F;Java、Git、Visio、Tableau、Cursor、Gemini、Prompt Engineering、Dify、Coze、agent">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Peng Yue的产品思考博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"py0909.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 100vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Peng Yue的产品笔记</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E9%A1%B9%E7%9B%AE%E5%A4%8D%E7%9B%98/" target="_self">
+                <i class="iconfont icon-ppt"></i>
+                <span>项目复盘</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/AI%E4%B8%8E%E6%8A%80%E6%9C%AF/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>AI探索</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E4%BA%A7%E5%93%81%E6%8B%86%E8%A7%A3/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>产品拆解</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E6%96%B9%E6%B3%95%E8%AE%BA/" target="_self">
+                <i class="iconfont icon-book-fill"></i>
+                <span>方法论</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E5%8E%9F%E5%9E%8B%E8%AE%BE%E8%AE%A1/" target="_self">
+                <i class="iconfont icon-pen"></i>
+                <span>原型设计</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text=" 产品 &amp;amp; AI Agent 探索者 "></span>
+          
+        </div>
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-x-md">
+        <div id="board"
+          style="margin-top: 0">
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+<h1 style="display: none">Peng Yue的产品思考博客</h1>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2026/01/20/%E9%A1%B9%E7%9B%AE%E5%A4%8D%E7%9B%98/%E9%9B%B6%E4%BF%A1%E4%BB%BB/%E9%9B%B6%E4%BF%A1%E4%BB%BB%E7%AE%80%E4%BB%8B/" target="_self">
+          <img src="/images/zeroTrust.jpg" srcset="/img/loading.gif" lazyload alt="论文1工业物联网零信任安全研究综述">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2026/01/20/%E9%A1%B9%E7%9B%AE%E5%A4%8D%E7%9B%98/%E9%9B%B6%E4%BF%A1%E4%BB%BB/%E9%9B%B6%E4%BF%A1%E4%BB%BB%E7%AE%80%E4%BB%8B/" target="_self">
+          论文1工业物联网零信任安全研究综述
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2026/01/20/%E9%A1%B9%E7%9B%AE%E5%A4%8D%E7%9B%98/%E9%9B%B6%E4%BF%A1%E4%BB%BB/%E9%9B%B6%E4%BF%A1%E4%BB%BB%E7%AE%80%E4%BB%8B/" target="_self">
+        <div>
+          一、零信任发展 零信任思想：从来不信任，始终在校验 （Never Trust，Always Verify） Forrester 首席分析师 John Kindervag 于 2010 年正式提出零信任概念，在零信任中，所有网络流量都是不受信任的。安全专业人员必须验证和保护所有资源，限制和严格执行访问控制，并检查和记录所有网络流量。 零信任核心要点：  任何访问资源的实体和流量默认都不被信任，位置安
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2026-01-20 09:00" pubdate>
+              2026-01-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E9%A1%B9%E7%9B%AE%E5%A4%8D%E7%9B%98/" class="category-chain-item">项目复盘</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E9%A1%B9%E7%9B%AE%E5%A4%8D%E7%9B%98/%E9%9B%B6%E4%BF%A1%E4%BB%BB/" class="category-chain-item">零信任</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E9%9B%B6%E4%BF%A1%E4%BB%BB/">#零信任</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2026/01/12/%E4%BA%A7%E5%93%81%E6%8B%86%E8%A7%A3/%E8%AE%BA%E6%96%871%E5%B7%A5%E4%B8%9A%E7%89%A9%E8%81%94%E7%BD%91%E9%9B%B6%E4%BF%A1%E4%BB%BB%E5%AE%89%E5%85%A8%E7%A0%94%E7%A9%B6%E7%BB%BC%E8%BF%B0/%E8%AE%BA%E6%96%871%E5%B7%A5%E4%B8%9A%E7%89%A9%E8%81%94%E7%BD%91%E9%9B%B6%E4%BF%A1%E4%BB%BB%E5%AE%89%E5%85%A8%E7%A0%94%E7%A9%B6%E7%BB%BC%E8%BF%B0/" target="_self">
+          <img src="/images/lxr.jpg" srcset="/img/loading.gif" lazyload alt="论文1工业物联网零信任安全研究综述">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2026/01/12/%E4%BA%A7%E5%93%81%E6%8B%86%E8%A7%A3/%E8%AE%BA%E6%96%871%E5%B7%A5%E4%B8%9A%E7%89%A9%E8%81%94%E7%BD%91%E9%9B%B6%E4%BF%A1%E4%BB%BB%E5%AE%89%E5%85%A8%E7%A0%94%E7%A9%B6%E7%BB%BC%E8%BF%B0/%E8%AE%BA%E6%96%871%E5%B7%A5%E4%B8%9A%E7%89%A9%E8%81%94%E7%BD%91%E9%9B%B6%E4%BF%A1%E4%BB%BB%E5%AE%89%E5%85%A8%E7%A0%94%E7%A9%B6%E7%BB%BC%E8%BF%B0/" target="_self">
+          论文1工业物联网零信任安全研究综述
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2026/01/12/%E4%BA%A7%E5%93%81%E6%8B%86%E8%A7%A3/%E8%AE%BA%E6%96%871%E5%B7%A5%E4%B8%9A%E7%89%A9%E8%81%94%E7%BD%91%E9%9B%B6%E4%BF%A1%E4%BB%BB%E5%AE%89%E5%85%A8%E7%A0%94%E7%A9%B6%E7%BB%BC%E8%BF%B0/%E8%AE%BA%E6%96%871%E5%B7%A5%E4%B8%9A%E7%89%A9%E8%81%94%E7%BD%91%E9%9B%B6%E4%BF%A1%E4%BB%BB%E5%AE%89%E5%85%A8%E7%A0%94%E7%A9%B6%E7%BB%BC%E8%BF%B0/" target="_self">
+        <div>
+          通过研读这篇综述，梳理了SDP架构，零信任的主要原则、数据源、3个主要组件以及其功能和通信方式。另外了解了常用的生成设备指纹的方法、如何获取“是否安装杀毒软件”信息的方法。 一、零信任​	零信任是一种资源保护为核心的网络安全模型，遵循“绝不信任、始终认证”的原则。不对任何访问主体默认授予信任，而是通过**持续的信任评估动态调整和管理安全策略。**通过增强的身份认证、访问控制以及资源间的微隔离等方式
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2026-01-12 15:00" pubdate>
+              2026-01-12
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E4%BA%A7%E5%93%81%E6%8B%86%E8%A7%A3/" class="category-chain-item">产品拆解</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E4%BA%A7%E5%93%81%E6%8B%86%E8%A7%A3/%E8%AE%BA%E6%96%871%E5%B7%A5%E4%B8%9A%E7%89%A9%E8%81%94%E7%BD%91%E9%9B%B6%E4%BF%A1%E4%BB%BB%E5%AE%89%E5%85%A8%E7%A0%94%E7%A9%B6%E7%BB%BC%E8%BF%B0/" class="category-chain-item">论文1工业物联网零信任安全研究综述</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E9%9B%B6%E4%BF%A1%E4%BB%BB/">#零信任</a>
+            
+              <a href="/tags/SDP/">#SDP</a>
+            
+              <a href="/tags/%E5%B7%A5%E4%B8%9A%E7%89%A9%E8%81%94%E7%BD%91/">#工业物联网</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2025/10/02/%E5%8E%9F%E5%9E%8B%E8%AE%BE%E8%AE%A1/%E5%88%9D%E5%85%83%E7%B4%A0%E8%8C%B6%E6%96%87%E5%8C%96%E5%8E%9F%E5%9E%8B1/" target="_self">
+          <img src="/images/%E5%88%9D%E5%85%83%E7%B4%A01.jpg" srcset="/img/loading.gif" lazyload alt="初元素茶文化原型1">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/10/02/%E5%8E%9F%E5%9E%8B%E8%AE%BE%E8%AE%A1/%E5%88%9D%E5%85%83%E7%B4%A0%E8%8C%B6%E6%96%87%E5%8C%96%E5%8E%9F%E5%9E%8B1/" target="_self">
+          初元素茶文化原型1
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2025/10/02/%E5%8E%9F%E5%9E%8B%E8%AE%BE%E8%AE%A1/%E5%88%9D%E5%85%83%E7%B4%A0%E8%8C%B6%E6%96%87%E5%8C%96%E5%8E%9F%E5%9E%8B1/" target="_self">
+        <div>
+          原型设计展示：             # **一、项目介绍**  （一）项目背景伴随互联网的高速发展，智能手机等移动电子产品日益成为人们生活中的不可或缺的一部分。人们通过短视频、文章、跨时空的交流等多种方式获取信息，而手机App也获取信息的重要渠道。在疫情爆发之后，线上产品进一步发展，这也助推了App的发展。同时，人们的健康意识进一步加强，这也推动了养生行业的勃兴，养生茶的市场需求高速倍增。食品
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-10-02 00:00" pubdate>
+              2025-10-02
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%8E%9F%E5%9E%8B%E8%AE%BE%E8%AE%A1/" class="category-chain-item">原型设计</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%8E%9F%E5%9E%8B%E8%AE%BE%E8%AE%A1/">#原型设计</a>
+            
+              <a href="/tags/Axure/">#Axure</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2025/10/02/AI%E4%B8%8E%E6%8A%80%E6%9C%AF/%E5%90%B4%E6%81%A9%E8%BE%BE%E9%9D%A2%E5%90%91%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%89%8B%E5%86%8C2%E6%90%AD%E5%BB%BA%E5%9F%BA%E4%BA%8EChatGPT%E7%9A%84%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F/%E5%90%B4%E6%81%A9%E8%BE%BE%E9%9D%A2%E5%90%91%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%89%8B%E5%86%8C2%E6%90%AD%E5%BB%BA%E5%9F%BA%E4%BA%8EChatGPT%E7%9A%84%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F/" target="_self">
+          <img src="/images/llmcookbook.jpg" srcset="/img/loading.gif" lazyload alt="吴恩达面向开发者的大模型手册2搭建基于ChatGPT的问答系统">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/10/02/AI%E4%B8%8E%E6%8A%80%E6%9C%AF/%E5%90%B4%E6%81%A9%E8%BE%BE%E9%9D%A2%E5%90%91%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%89%8B%E5%86%8C2%E6%90%AD%E5%BB%BA%E5%9F%BA%E4%BA%8EChatGPT%E7%9A%84%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F/%E5%90%B4%E6%81%A9%E8%BE%BE%E9%9D%A2%E5%90%91%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%89%8B%E5%86%8C2%E6%90%AD%E5%BB%BA%E5%9F%BA%E4%BA%8EChatGPT%E7%9A%84%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F/" target="_self">
+          吴恩达面向开发者的大模型手册2搭建基于ChatGPT的问答系统
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2025/10/02/AI%E4%B8%8E%E6%8A%80%E6%9C%AF/%E5%90%B4%E6%81%A9%E8%BE%BE%E9%9D%A2%E5%90%91%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%89%8B%E5%86%8C2%E6%90%AD%E5%BB%BA%E5%9F%BA%E4%BA%8EChatGPT%E7%9A%84%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F/%E5%90%B4%E6%81%A9%E8%BE%BE%E9%9D%A2%E5%90%91%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%89%8B%E5%86%8C2%E6%90%AD%E5%BB%BA%E5%9F%BA%E4%BA%8EChatGPT%E7%9A%84%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F/" target="_self">
+        <div>
+          第二部分 搭建基于ChatGPT的问答系统01 简介本部分的主要内容包括：通过分类与监督的方式检查输入；思维链推理以及提示链的技巧；检查输入；对系统输出进行评估等。 目录： 简介 Introduction模型，范式和 token Language Models, the Chat Format and Tokens检查输入-分类 Classification检查输入-监督 Moderation思维
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-10-02 00:00" pubdate>
+              2025-10-02
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/AI%E4%B8%8E%E6%8A%80%E6%9C%AF/" class="category-chain-item">AI与技术</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/AI%E4%B8%8E%E6%8A%80%E6%9C%AF/%E5%90%B4%E6%81%A9%E8%BE%BE%E9%9D%A2%E5%90%91%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%89%8B%E5%86%8C2%E6%90%AD%E5%BB%BA%E5%9F%BA%E4%BA%8EChatGPT%E7%9A%84%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F/" class="category-chain-item">吴恩达面向开发者的大模型手册2搭建基于ChatGPT的问答系统</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Prompt%E5%B7%A5%E7%A8%8B/">#Prompt工程</a>
+            
+              <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/">#大模型</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2025/10/02/AI%E4%B8%8E%E6%8A%80%E6%9C%AF/%E5%90%B4%E6%81%A9%E8%BE%BE%E9%9D%A2%E5%90%91%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%89%8B%E5%86%8C4%E4%BD%BF%E7%94%A8LangChain%E8%AE%BF%E9%97%AE%E4%B8%AA%E4%BA%BA%E6%95%B0%E6%8D%AE/%E5%90%B4%E6%81%A9%E8%BE%BE%E9%9D%A2%E5%90%91%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%89%8B%E5%86%8C4%E4%BD%BF%E7%94%A8LangChain%E8%AE%BF%E9%97%AE%E4%B8%AA%E4%BA%BA%E6%95%B0%E6%8D%AE/" target="_self">
+          <img src="/images/llmcookbook.jpg" srcset="/img/loading.gif" lazyload alt="吴恩达面向开发者的大模型手册4使用LangChain访问个人数据">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/10/02/AI%E4%B8%8E%E6%8A%80%E6%9C%AF/%E5%90%B4%E6%81%A9%E8%BE%BE%E9%9D%A2%E5%90%91%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%89%8B%E5%86%8C4%E4%BD%BF%E7%94%A8LangChain%E8%AE%BF%E9%97%AE%E4%B8%AA%E4%BA%BA%E6%95%B0%E6%8D%AE/%E5%90%B4%E6%81%A9%E8%BE%BE%E9%9D%A2%E5%90%91%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%89%8B%E5%86%8C4%E4%BD%BF%E7%94%A8LangChain%E8%AE%BF%E9%97%AE%E4%B8%AA%E4%BA%BA%E6%95%B0%E6%8D%AE/" target="_self">
+          吴恩达面向开发者的大模型手册4使用LangChain访问个人数据
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2025/10/02/AI%E4%B8%8E%E6%8A%80%E6%9C%AF/%E5%90%B4%E6%81%A9%E8%BE%BE%E9%9D%A2%E5%90%91%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%89%8B%E5%86%8C4%E4%BD%BF%E7%94%A8LangChain%E8%AE%BF%E9%97%AE%E4%B8%AA%E4%BA%BA%E6%95%B0%E6%8D%AE/%E5%90%B4%E6%81%A9%E8%BE%BE%E9%9D%A2%E5%90%91%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%89%8B%E5%86%8C4%E4%BD%BF%E7%94%A8LangChain%E8%AE%BF%E9%97%AE%E4%B8%AA%E4%BA%BA%E6%95%B0%E6%8D%AE/" target="_self">
+        <div>
+          第四部分 使用LangChain访问个人数据目录：简介 Introduction加载文档 Document Loading文档切割 Document Splitting向量数据库与词向量 Vectorstores and Embeddings检索 Retrieval问答 Question Answering聊天 Chat总结 Summary 第一章 简介 Introduction背景：大语言模型的
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-10-02 00:00" pubdate>
+              2025-10-02
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/AI%E4%B8%8E%E6%8A%80%E6%9C%AF/" class="category-chain-item">AI与技术</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/AI%E4%B8%8E%E6%8A%80%E6%9C%AF/%E5%90%B4%E6%81%A9%E8%BE%BE%E9%9D%A2%E5%90%91%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%89%8B%E5%86%8C4%E4%BD%BF%E7%94%A8LangChain%E8%AE%BF%E9%97%AE%E4%B8%AA%E4%BA%BA%E6%95%B0%E6%8D%AE/" class="category-chain-item">吴恩达面向开发者的大模型手册4使用LangChain访问个人数据</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/">#大模型</a>
+            
+              <a href="/tags/LangChain/">#LangChain</a>
+            
+              <a href="/tags/RAG/">#RAG</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2025/10/02/AI%E4%B8%8E%E6%8A%80%E6%9C%AF/%E5%90%B4%E6%81%A9%E8%BE%BE%E9%9D%A2%E5%90%91%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%89%8B%E5%86%8C3%E4%BD%BF%E7%94%A8LangChain%E5%BC%80%E5%8F%91%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F/%E5%90%B4%E6%81%A9%E8%BE%BE%E9%9D%A2%E5%90%91%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%89%8B%E5%86%8C3%E4%BD%BF%E7%94%A8LangChain%E5%BC%80%E5%8F%91%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F/" target="_self">
+          <img src="/images/llmcookbook.jpg" srcset="/img/loading.gif" lazyload alt="吴恩达面向开发者的大模型手册3使用LangChain开发应用程序">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/10/02/AI%E4%B8%8E%E6%8A%80%E6%9C%AF/%E5%90%B4%E6%81%A9%E8%BE%BE%E9%9D%A2%E5%90%91%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%89%8B%E5%86%8C3%E4%BD%BF%E7%94%A8LangChain%E5%BC%80%E5%8F%91%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F/%E5%90%B4%E6%81%A9%E8%BE%BE%E9%9D%A2%E5%90%91%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%89%8B%E5%86%8C3%E4%BD%BF%E7%94%A8LangChain%E5%BC%80%E5%8F%91%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F/" target="_self">
+          吴恩达面向开发者的大模型手册3使用LangChain开发应用程序
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2025/10/02/AI%E4%B8%8E%E6%8A%80%E6%9C%AF/%E5%90%B4%E6%81%A9%E8%BE%BE%E9%9D%A2%E5%90%91%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%89%8B%E5%86%8C3%E4%BD%BF%E7%94%A8LangChain%E5%BC%80%E5%8F%91%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F/%E5%90%B4%E6%81%A9%E8%BE%BE%E9%9D%A2%E5%90%91%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%89%8B%E5%86%8C3%E4%BD%BF%E7%94%A8LangChain%E5%BC%80%E5%8F%91%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F/" target="_self">
+        <div>
+          第三部分 使用LangChain开发应用程序这里我开始使用免费的千问模型，更改.env的api tool.py: 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-10-02 00:00" pubdate>
+              2025-10-02
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/AI%E4%B8%8E%E6%8A%80%E6%9C%AF/" class="category-chain-item">AI与技术</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/AI%E4%B8%8E%E6%8A%80%E6%9C%AF/%E5%90%B4%E6%81%A9%E8%BE%BE%E9%9D%A2%E5%90%91%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%89%8B%E5%86%8C3%E4%BD%BF%E7%94%A8LangChain%E5%BC%80%E5%8F%91%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F/" class="category-chain-item">吴恩达面向开发者的大模型手册3使用LangChain开发应用程序</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/">#大模型</a>
+            
+              <a href="/tags/LangChain/">#LangChain</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2025/10/01/AI%E4%B8%8E%E6%8A%80%E6%9C%AF/%E5%90%B4%E6%81%A9%E8%BE%BE%E9%9D%A2%E5%90%91%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%89%8B%E5%86%8C1%E9%9D%A2%E5%90%91%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E6%8F%90%E7%A4%BA%E5%B7%A5%E7%A8%8B/%E5%90%B4%E6%81%A9%E8%BE%BE%E9%9D%A2%E5%90%91%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%89%8B%E5%86%8C1%E9%9D%A2%E5%90%91%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E6%8F%90%E7%A4%BA%E5%B7%A5%E7%A8%8B/" target="_self">
+          <img src="/images/llmcookbook.jpg" srcset="/img/loading.gif" lazyload alt="吴恩达面向开发者的大模型手册1面向开发者的提示工程">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/10/01/AI%E4%B8%8E%E6%8A%80%E6%9C%AF/%E5%90%B4%E6%81%A9%E8%BE%BE%E9%9D%A2%E5%90%91%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%89%8B%E5%86%8C1%E9%9D%A2%E5%90%91%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E6%8F%90%E7%A4%BA%E5%B7%A5%E7%A8%8B/%E5%90%B4%E6%81%A9%E8%BE%BE%E9%9D%A2%E5%90%91%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%89%8B%E5%86%8C1%E9%9D%A2%E5%90%91%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E6%8F%90%E7%A4%BA%E5%B7%A5%E7%A8%8B/" target="_self">
+          吴恩达面向开发者的大模型手册1面向开发者的提示工程
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2025/10/01/AI%E4%B8%8E%E6%8A%80%E6%9C%AF/%E5%90%B4%E6%81%A9%E8%BE%BE%E9%9D%A2%E5%90%91%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%89%8B%E5%86%8C1%E9%9D%A2%E5%90%91%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E6%8F%90%E7%A4%BA%E5%B7%A5%E7%A8%8B/%E5%90%B4%E6%81%A9%E8%BE%BE%E9%9D%A2%E5%90%91%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%89%8B%E5%86%8C1%E9%9D%A2%E5%90%91%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E6%8F%90%E7%A4%BA%E5%B7%A5%E7%A8%8B/" target="_self">
+        <div>
+          ​        本书涵盖大模型应用开发的方方面面，相信通过本书的学习，即便没有丰富编程经验，也可以顺利入门大模型，开发出有实用价值的AI产品。我在第一部分跟着书，使用的是openai的gpt-4o-mini模型，在免费额度使用完后，重新用硅基流动的免费api，使用的是Qwen2.5-7B-Instruct模型，向量模型都使用的是下载到本地的小模型，如：BAAI&#x2F;bge-base-zh-
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-10-01 00:00" pubdate>
+              2025-10-01
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/AI%E4%B8%8E%E6%8A%80%E6%9C%AF/" class="category-chain-item">AI与技术</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/AI%E4%B8%8E%E6%8A%80%E6%9C%AF/%E5%90%B4%E6%81%A9%E8%BE%BE%E9%9D%A2%E5%90%91%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%89%8B%E5%86%8C1%E9%9D%A2%E5%90%91%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E6%8F%90%E7%A4%BA%E5%B7%A5%E7%A8%8B/" class="category-chain-item">吴恩达面向开发者的大模型手册1面向开发者的提示工程</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Prompt%E5%B7%A5%E7%A8%8B/">#Prompt工程</a>
+            
+              <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/">#大模型</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <a class="extend prev" rel="prev" href="/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    </span>
+  </nav>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>Peng Yue</span> <i class="iconfont icon-love"></i> <span>Product Manager</span> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,931 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/images/avatar.jpg">
+  <link rel="icon" href="/images/avatar.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Peng Yue">
+  <meta name="keywords" content="Axure/Figma、Xmind、SQL、Python/Java、Git、Visio、Tableau、Cursor、Gemini、Prompt Engineering、Dify、Coze、agent">
+  
+    <meta name="description" content="精读笔记第二篇，体例同前：Gneiting &amp; Raftery 严格正则评分规则（JASA 2007）、共形时序预测（NeurIPS 2021）、PatchTST（ICLR 2023）、DeepAR（IJF 2020）。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="研读笔记（二）精读 A5-A8">
+<meta property="og:url" content="https://py0909.github.io/2026/10/06/%E6%96%B9%E6%B3%95%E8%AE%BA/%E7%A0%94%E8%AF%BB%E7%AC%94%E8%AE%B0-%E7%B2%BE%E8%AF%BBA5-A8/index.html">
+<meta property="og:site_name" content="Peng Yue的产品思考博客">
+<meta property="og:description" content="精读笔记第二篇，体例同前：Gneiting &amp; Raftery 严格正则评分规则（JASA 2007）、共形时序预测（NeurIPS 2021）、PatchTST（ICLR 2023）、DeepAR（IJF 2020）。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-10-06T01:04:00.000Z">
+<meta property="article:modified_time" content="2026-10-05T17:18:17.267Z">
+<meta property="article:author" content="Peng Yue">
+<meta property="article:tag" content="时序预测">
+<meta property="article:tag" content="论文研读">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>研读笔记（二）精读 A5-A8 - Peng Yue的产品思考博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <link  rel="stylesheet" href="https://registry.npmmirror.com/katex/0.18.10/files/dist/katex.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"py0909.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Peng Yue的产品笔记</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E9%A1%B9%E7%9B%AE%E5%A4%8D%E7%9B%98/" target="_self">
+                <i class="iconfont icon-ppt"></i>
+                <span>项目复盘</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/AI%E4%B8%8E%E6%8A%80%E6%9C%AF/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>AI探索</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E4%BA%A7%E5%93%81%E6%8B%86%E8%A7%A3/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>产品拆解</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E6%96%B9%E6%B3%95%E8%AE%BA/" target="_self">
+                <i class="iconfont icon-book-fill"></i>
+                <span>方法论</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/%E5%8E%9F%E5%9E%8B%E8%AE%BE%E8%AE%A1/" target="_self">
+                <i class="iconfont icon-pen"></i>
+                <span>原型设计</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="研读笔记（二）精读 A5-A8"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Peng Yue
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-10-06 09:04" pubdate>
+          2026年10月6日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          9.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          82 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">研读笔记（二）精读 A5-A8</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="研读笔记（二）：精读-A5–A8-·-按第一步-第二步整理"><a href="#研读笔记（二）：精读-A5–A8-·-按第一步-第二步整理" class="headerlink" title="研读笔记（二）：精读 A5–A8 · 按第一步+第二步整理"></a>研读笔记（二）：精读 A5–A8 · 按第一步+第二步整理</h1><blockquote>
+<p>体例同《研读笔记-精读A1-A4.md》：第一步八项严格按原文（引号处为摘要&#x2F;正文原文表述，PDF 实测）；第二步&#x3D;基础知识+全文通俗解读+术语表。批判四问&#x2F;缝合点在《论文阅读任务单.md》。</p>
+</blockquote>
+<hr>
+<h1 id="A5-Gneiting-Raftery-Strictly-Proper-Scoring-Rules（JASA-2007）"><a href="#A5-Gneiting-Raftery-Strictly-Proper-Scoring-Rules（JASA-2007）" class="headerlink" title="A5 Gneiting &amp; Raftery: Strictly Proper Scoring Rules（JASA 2007）"></a>A5 Gneiting &amp; Raftery: Strictly Proper Scoring Rules（JASA 2007）</h1><h2 id="第一步：研究核心八项"><a href="#第一步：研究核心八项" class="headerlink" title="第一步：研究核心八项"></a>第一步：研究核心八项</h2><ol>
+<li><strong>标题翻译</strong>：《严格正则评分规则、预测与估计》</li>
+<li><strong>所属学科</strong>：统计学 — 预测评价理论 &#x2F; 贝叶斯统计</li>
+<li><strong>作者</strong>：Tilmann Gneiting、Adrian E. Raftery（华盛顿大学统计系）</li>
+<li><strong>发表日期</strong>：Journal of the American Statistical Association 102(477): 359–378，2007 年</li>
+<li><strong>研究背景（摘要原文）</strong>：评分规则（scoring rules）通过”基于预报分布与实际发生值给数值分”来评估概率预报的质量；若预报员发布真实分布 F 时期望得分最大，称该规则为 <strong>proper</strong>；最大值唯一则称 <strong>strictly proper</strong>——正则性促使预报员做出审慎、诚实的评估。</li>
+<li><strong>研究目的与创新</strong>：把评分规则从决策论公理系统化导出；给出经典例子族（<strong>对数得分、Brier 得分、CRPS、能量得分（energy score）、球面得分</strong>等）的性质；把框架延伸到<strong>估计问题</strong>（伪得分&#x2F;最佳评分估计）与<strong>贝叶斯模型评价与批评</strong>。</li>
+<li><strong>数据集</strong>：无基准数据集（理论文章；配演算示例）。</li>
+<li><strong>文献综述（依原文改写）</strong>：预报评价从经验性技巧（命中率、相关系数）走向公理化：二元预报的 Brier 得分与对数得分 → 多类 → 连续量的 <strong>CRPS（Brier 得分对阈值的积分推广）</strong> → 多元的 <strong>energy score</strong>；”proper”性质把”诚实预报”变成占优策略，构成概率预报评估的统一理论基础，被气象、水文、经济与机器学习评测沿用。</li>
+</ol>
+<h2 id="第二步之一：前置基础知识（通俗）"><a href="#第二步之一：前置基础知识（通俗）" class="headerlink" title="第二步之一：前置基础知识（通俗）"></a>第二步之一：前置基础知识（通俗）</h2><p><strong>① 概率预报的”打分”困境</strong>：你预报”明天下雨概率 70%”，明天要么下要么不下——怎么给这次预报打分才公平？需要一个规则，使得<strong>长期平均下，说真话的人得分最高</strong>。<br><strong>② 期望与凹函数</strong>：proper 性的证明只用到期望的线性与 Jensen 不等式（凹函数在对称点取最大），不需要高深工具。<br><strong>③ 二元特例直觉</strong>：Brier 得分&#x3D;（预报概率−实际结果）²。真下雨概率是 0.7 时，报 0.7 的期望 Brier 严格小于报任何其他值——这就是”严格 proper”的最小例子。</p>
+<h2 id="第二步之二：全文通俗解读（按节）"><a href="#第二步之二：全文通俗解读（按节）" class="headerlink" title="第二步之二：全文通俗解读（按节）"></a>第二步之二：全文通俗解读（按节）</h2><ul>
+<li><strong>§1 引言</strong>：从气象预报的实践问题引出：数值预报+概率化 → 需要理论评价标准；给出 proper 的正式定义（摘要已含）。</li>
+<li><strong>§2 例子（重点，逐段翻译对象）</strong>：<ul>
+<li><strong>对数得分（LogScore）</strong>：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo stretchy="false">(</mo><mi>p</mi><mo separator="true">,</mo><mi>y</mi><mo stretchy="false">)</mo><mo>=</mo><mo>−</mo><mi>log</mi><mo>⁡</mo><mi>p</mi><mo stretchy="false">(</mo><mi>y</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">S(p,y) = -\log p(y)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0576em;">S</span><span class="mopen">(</span><span class="mord mathnormal">p</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">−</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">lo<span style="margin-right:0.0139em;">g</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">p</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="mclose">)</span></span></span></span>——只惩罚”真实事件被你报的概率”；</li>
+<li><strong>Brier 得分</strong>：二元平方误差；</li>
+<li><strong>CRPS</strong>：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>CRPS</mtext><mo stretchy="false">(</mo><mi>F</mi><mo separator="true">,</mo><mi>y</mi><mo stretchy="false">)</mo><mo>=</mo><mo>∫</mo><mo stretchy="false">(</mo><mi>F</mi><mo stretchy="false">(</mo><mi>z</mi><mo stretchy="false">)</mo><mo>−</mo><mn mathvariant="bold">1</mn><mo stretchy="false">{</mo><mi>z</mi><mo>≥</mo><mi>y</mi><mo stretchy="false">}</mo><msup><mo stretchy="false">)</mo><mn>2</mn></msup><mi>d</mi><mi>z</mi></mrow><annotation encoding="application/x-tex">\text{CRPS}(F,y)=\int(F(z)-\mathbf{1}\{z\ge y\})^2 dz</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">CRPS</span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.1389em;">F</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1.1111em;vertical-align:-0.3061em;"></span><span class="mop op-symbol small-op" style="margin-right:0.1945em;position:relative;top:-0.0006em;">∫</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.1389em;">F</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.044em;">z</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathbf">1</span><span class="mopen">{</span><span class="mord mathnormal" style="margin-right:0.044em;">z</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="mclose">}</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mord mathnormal">d</span><span class="mord mathnormal" style="margin-right:0.044em;">z</span></span></span></span>，给出两种等价式（与论文一致）；<strong>文中强调它对连续量是 Brier 得分的天然推广、且退化为绝对误差</strong>；</li>
+<li><strong>能量得分</strong>：多元推广 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mi mathvariant="normal">∥</mi><mi>X</mi><mo>−</mo><mi>y</mi><mi mathvariant="normal">∥</mi><mo>−</mo><mstyle scriptlevel="0" displaystyle="false"><mfrac><mn>1</mn><mn>2</mn></mfrac></mstyle><mi>E</mi><mi mathvariant="normal">∥</mi><mi>X</mi><mo>−</mo><msup><mi>X</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mi mathvariant="normal">∥</mi></mrow><annotation encoding="application/x-tex">E\|X-y\|-\tfrac12 E\|X-X&#x27;\|</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0576em;">E</span><span class="mord">∥</span><span class="mord mathnormal" style="margin-right:0.0785em;">X</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="mord">∥</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1.1901em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8451em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord mathnormal" style="margin-right:0.0576em;">E</span><span class="mord">∥</span><span class="mord mathnormal" style="margin-right:0.0785em;">X</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1.0019em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0785em;">X</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mord">∥</span></span></span></span>；</li>
+<li>各规则的 proper 性逐一验证。</li>
+</ul>
+</li>
+<li><strong>§3–§4 估计问题（浏览）</strong>：用评分规则做参数估计（best scoring estimator）。</li>
+<li><strong>§5 贝叶斯模型评价与批评（浏览）</strong>：用 proper score 比较模型、做 posterior predictive 检查。</li>
+<li><strong>全文着重一句话</strong>：<strong>proper 只保证诚实，不保证有用</strong>——校准但极钝的预报也满足 proper；所以实践准则（原文思想）是”在正则性约束下最大化 sharpness（锐度）”。这句话就是你论文 2.5 节指标选择的落笔点。</li>
+</ul>
+<h2 id="第二步之三：重要术语通俗讲解"><a href="#第二步之三：重要术语通俗讲解" class="headerlink" title="第二步之三：重要术语通俗讲解"></a>第二步之三：重要术语通俗讲解</h2><ul>
+<li><strong>评分规则（scoring rule）</strong>：给”预报分布+实际值”打分的函数。</li>
+<li><strong>proper &#x2F; strictly proper</strong>：报真话期望最优 &#x2F; 唯一最优——“诚实占优”的数学化。</li>
+<li><strong>对数得分（LogScore）</strong>：负对数似然；分布拟合的直接度量。</li>
+<li><strong>CRPS</strong>：连续量的预报评分，Brier 的积分推广、点预报退化为绝对误差。</li>
+<li><strong>能量得分（energy score）</strong>：CRPS 的多变量版（向量距离），评联合预报专用。</li>
+<li><strong>sharpness（锐度）</strong>：预报分布的集中程度——在诚实前提下越尖越有用。<blockquote>
+<p><strong>🔍 术语加深（公式级）</strong></p>
+<ul>
+<li><strong>proper 的两种等价表述</strong>：①期望版（摘要那条不等式）；②”评分规则是某个凹函数的支撑超平面”（G&amp;R §2 的几何刻画）——读原文时看到 supergradients 不要慌，等价于”在真分布处切线最大”。</li>
+<li><strong>CRPS 的第三个身份</strong>：CRPS &#x3D; 所有分位数损失的平均（<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><msubsup><mo>∫</mo><mn>0</mn><mn>1</mn></msubsup><msub><mtext>QL</mtext><mi>α</mi></msub><mi>d</mi><mi>α</mi></mrow><annotation encoding="application/x-tex">2\int_0^1 \text{QL}_\alpha d\alpha</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1.3648em;vertical-align:-0.3558em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop"><span class="mop op-symbol small-op" style="margin-right:0.1945em;position:relative;top:-0.0006em;">∫</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.009em;"><span style="top:-2.3442em;margin-left:-0.1945em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span><span style="top:-3.2579em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3558em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord text"><span class="mord">QL</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.0573em;"><span style="top:-2.4559em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0037em;">α</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2441em;"><span></span></span></span></span></span></span><span class="mord mathnormal">d</span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span></span></span></span>）——这解释了为什么”报区间好坏”（pinball）与”报分布好坏”（CRPS）方向一致。</li>
+<li><strong>Energy Score 的多元性</strong>：向量范数替换绝对值——手算区分”边缘对、相关错”的例子见第一部分详解 §3.4 小白详解（模型 A 0.293 vs B 0.707）。</li>
+<li><strong>LogScore 与 NLL 的关系</strong>：同一东西——LogScore&#x3D;负对数预报概率；训练里的 NLL 就是它的样本平均。</li>
+<li><strong>别家怎么做（评价理论谱系）</strong>：Brier（二元）→ CRPS（连续，Brier 对阈值的积分）→ Energy Score（多元）——G&amp;R 把这条链统一在 proper 框架下；你论文的三层指标体系就是按这条链搭的。</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<hr>
+<h1 id="A6-Conformal-Time-Series-Forecasting（NeurIPS-2021）"><a href="#A6-Conformal-Time-Series-Forecasting（NeurIPS-2021）" class="headerlink" title="A6 Conformal Time-Series Forecasting（NeurIPS 2021）"></a>A6 Conformal Time-Series Forecasting（NeurIPS 2021）</h1><h2 id="第一步：研究核心八项-1"><a href="#第一步：研究核心八项-1" class="headerlink" title="第一步：研究核心八项"></a>第一步：研究核心八项</h2><ol>
+<li><strong>标题翻译</strong>：《共形时间序列预测》</li>
+<li><strong>所属学科</strong>：机器学习 — 不确定性量化 &#x2F; 共形预测</li>
+<li><strong>作者</strong>：Kamilė Stankevičiūtė（牛津&#x2F;剑桥）、Ahmed M. Alaa（UCLA）、Mihaela van der Schaar（剑桥&#x2F;UCLA&#x2F;图灵研究所）</li>
+<li><strong>发表日期</strong>：NeurIPS 2021</li>
+<li><strong>研究背景（摘要原文）</strong>：RNN 多视角（multi-horizon）时序预测只给点估计，对关键领域的决策不够；现有 RNN 不确定性方法缺陷：需要大改架构、计算复杂、难校准、样本复杂度高、<strong>没有理论有效性保证</strong>。</li>
+<li><strong>研究目的与创新</strong>：把 <strong>inductive conformal prediction 扩展到时序预测场景</strong>，提出轻量的不确定性估计程序：<strong>在最弱的可交换性假设下，对任意多视角预测器与任意数据集，给出频率覆盖有理论保证的不确定区间</strong>。</li>
+<li><strong>数据集</strong>：<strong>exchange-rate（汇率）与 MIMIC-III</strong>（全文实测高频）。</li>
+<li><strong>文献综述（依原文改写）</strong>：不确定性量化三条路：贝叶斯方法（需先验、计算贵）、集成&#x2F;MC dropout（启发式、无保证）、<strong>共形预测（分布无关+有限样本覆盖保证）</strong>；但经典共形假设可交换（i.i.d.），时序的自相关与分布漂移破坏它——本文以加权共形与自适应共形两条改造路线补位。</li>
+</ol>
+<h2 id="第二步之一：前置基础知识（通俗）-1"><a href="#第二步之一：前置基础知识（通俗）-1" class="headerlink" title="第二步之一：前置基础知识（通俗）"></a>第二步之一：前置基础知识（通俗）</h2><p><strong>① 分位数</strong>：把 100 个残差从小到大排，第 95 个就是 95% 分位——“95% 的点比它小”。<br><strong>② 共形预测两步（共形&#x3D;可交换）</strong>：</p>
+<pre><code class=" mermaid">graph LR
+    A[&quot;① 校准集算残差 |y−ŷ|&quot;] --&gt; B[&quot;② 取 95% 分位 q&quot;]
+    B --&gt; C[&quot;③ 新样本区间 = ŷ ± q（保证：真实值落入≥95%）&quot;]
+</code></pre>
+<p><strong>③ 可交换性</strong>：比”独立同分布”更弱的假设（联合分布对下标置换不变）——但<strong>时序自相关与漂移仍然破坏它</strong>，这是本文要解决的问题。<br><strong>④ 漂移（drift）</strong>：数据分布随时间慢慢变（汇率 regime 切换、病房换班）——昨天算的残差分位数今天不管用了。</p>
+<h2 id="第二步之二：全文通俗解读（按节）-1"><a href="#第二步之二：全文通俗解读（按节）-1" class="headerlink" title="第二步之二：全文通俗解读（按节）"></a>第二步之二：全文通俗解读（按节）</h2><ul>
+<li><strong>§1 引言</strong>：决策场景（医疗监护）需要”带保证的区间”，不是”看起来合理的区间”；列出现有五宗罪（摘要原文）。</li>
+<li><strong>§2 背景</strong>：split&#x2F;inductive conformal 的标准流程（上图）；指出可交换性在时序失效的两类表现（自相关、漂移）。</li>
+<li><strong>§3 方法（逐段翻译对象，两族）</strong>：<ul>
+<li><strong>加权共形（weighted conformal）</strong>：给校准样本按”时间远近&#x2F;相似度”加权后再取分位——对抗自相关；</li>
+<li><strong>自适应共形（ACI，重点）</strong>：在线维护分位数参数 θ——实际覆盖不足（真值落在区间外）就调大 θ、覆盖过剩就调小，一个带步长的更新规则让<strong>长期覆盖追踪名义水平</strong>。</li>
+<li><strong>按模块说功能</strong>：共形&#x3D;事后给任意点预测”配”有保证的区间；加权&#x3D;处理”老样本不可信”；自适应&#x3D;处理”世界在变”。</li>
+</ul>
+</li>
+<li><strong>§4 实验</strong>：汇率（漂移强）与 MIMIC-III（医疗多视角）；报实际覆盖 vs 名义覆盖、区间宽；展示静态共形在漂移下覆盖崩、本文方法保住。</li>
+<li><strong>§5 结论</strong>：轻量、模型无关、有保证的时序区间；代价是需要（ACI 的）在线反馈。</li>
+</ul>
+<h2 id="第二步之三：重要术语通俗讲解-1"><a href="#第二步之三：重要术语通俗讲解-1" class="headerlink" title="第二步之三：重要术语通俗讲解"></a>第二步之三：重要术语通俗讲解</h2><ul>
+<li><strong>共形预测（conformal prediction）</strong>：用校准集残差分位数给任意模型”事后配”区间，分布无关。</li>
+<li><strong>可交换性（exchangeability）</strong>：顺序打乱分布不变——i.i.d. 的弱化版；共形保证的前提。</li>
+<li><strong>频率覆盖（frequentist coverage）</strong>：长期来看真值落入区间的频率 ≥ 名义水平。</li>
+<li><strong>multi-horizon</strong>：一次预测未来多个时间步（你的 P&#x3D;24 就是）。</li>
+<li><strong>自适应共形（ACI）</strong>：在线调分位数参数以追踪漂移的规则。<blockquote>
+<p><strong>🔍 术语加深（公式级）</strong></p>
+<ul>
+<li><strong>split conformal 的保证为什么”免费”</strong>：它只假设”校准集与新样本可交换”——不对模型做任何假设（模型可以很烂，区间照样 90% 覆盖，只是很宽）。公式：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mi>q</mi><mo>^</mo></mover><mo>=</mo><mo stretchy="false">⌈</mo><mo stretchy="false">(</mo><mi>n</mi><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>α</mi><mo stretchy="false">)</mo><mo stretchy="false">⌉</mo><mi mathvariant="normal">/</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">\hat q=\lceil(n+1)(1-\alpha)\rceil/n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord katex-accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6944em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">q</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.1667em;"><span class="mord">^</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1944em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">⌈(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span><span class="mclose">)⌉</span><span class="mord">/</span><span class="mord mathnormal">n</span></span></span></span> 分位残差（<strong>n+1 修正项</strong>保证有限样本严格覆盖，勿丢）。</li>
+<li><strong>ACI 的更新规则（论文核心一行）</strong>：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>θ</mi><mrow><mi>t</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><msub><mi>θ</mi><mi>t</mi></msub><mo>+</mo><mi>γ</mi><mo stretchy="false">(</mo><mi>α</mi><mo>−</mo><msub><mtext>err</mtext><mi>t</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\theta_{t+1}=\theta_t+\gamma(\alpha-\text{err}_t)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.9028em;vertical-align:-0.2083em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0278em;">θ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2083em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0278em;">θ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2806em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0556em;">γ</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord text"><span class="mord">err</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2806em;"><span style="top:-2.55em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>——真值落在区间外（err&#x3D;1）就调大 θ，落在内（err&#x3D;0）就调小；γ 是步长。<strong>直觉</strong>：恒温器——太冷加热、太热降温，长期温度贴着目标。</li>
+<li><strong>加权共形</strong>：给校准样本按时间远近加权 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>w</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">w_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0269em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0269em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>（越近权重越大）再取加权分位——对抗”老样本不代表现在”。</li>
+<li><strong>两种失效场景与对策对照</strong>：自相关→加权；漂移→ACI——你的工业数据两者都有，论文里各引用一句。</li>
+<li><strong>别家怎么做</strong>：静态 split conformal（Vovk&#x2F;Papadopoulos 谱系）在 i.i.d. 下有保证、时序下失效；后续 CQR（分位数回归+共形）、EnbPI（集成）是这条线的延伸——相关工作一句话即可。</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<hr>
+<h1 id="A7-PatchTST（ICLR-2023）"><a href="#A7-PatchTST（ICLR-2023）" class="headerlink" title="A7 PatchTST（ICLR 2023）"></a>A7 PatchTST（ICLR 2023）</h1><h2 id="第一步：研究核心八项-2"><a href="#第一步：研究核心八项-2" class="headerlink" title="第一步：研究核心八项"></a>第一步：研究核心八项</h2><ol>
+<li><strong>标题翻译</strong>：《一个时间序列值 64 个单词：基于 Transformer 的长期预测》</li>
+<li><strong>所属学科</strong>：机器学习 — 长期时序预测</li>
+<li><strong>作者</strong>：Yuqi Nie（普林斯顿大学）、Nam H. Nguyen、Phanwadee Sinthong、Jayant Kalagnanam（IBM Research）</li>
+<li><strong>发表日期</strong>：ICLR 2023（arXiv:2211.14730）</li>
+<li><strong>研究背景（摘要原文）</strong>：为多变量时序预测与自监督表示学习设计高效的 Transformer。</li>
+<li><strong>研究目的与创新（摘要原文两条）</strong>：(i) <strong>patching</strong>——把序列切成子序列级 patch 作为 Transformer 输入 token，三重好处：embedding 保留<strong>局部语义</strong>、同样回看窗口下注意力计算与内存<strong>平方级减少</strong>、模型能<strong>看更长的历史</strong>；(ii) <strong>channel-independence</strong>——每个通道是单变量序列，所有序列<strong>共享同一 embedding 与 Transformer 权重</strong>。另有 masked 自监督预训练，跨数据集迁移表征也达 SOTA。</li>
+<li><strong>数据集</strong>：8 个（全文实测高频：<strong>ETTh1、ETTh2、ETTm1、ETTm2、Weather、Electricity、Traffic</strong>，另有流感样病例 Influenza）。</li>
+<li><strong>文献综述（依原文改写）</strong>：长期预测演进：RNN&#x2F;LSTM → Transformer 化（Informer&#x2F;Autoformer&#x2F;FEDformer 等高效注意力变体）→ <strong>线性模型挑战</strong>（DLinear 证明简单线性也能打）→ PatchTST 以 patch+CI 两个正交设计让 Transformer 重回 SOTA，并用自监督预训练打开迁移路线。</li>
+</ol>
+<h2 id="第二步之一：前置基础知识（通俗）-2"><a href="#第二步之一：前置基础知识（通俗）-2" class="headerlink" title="第二步之一：前置基础知识（通俗）"></a>第二步之一：前置基础知识（通俗）</h2><p><strong>① 注意力的平方瓶颈</strong>：token 数 L，注意力矩阵 L×L——序列翻倍，内存四倍。这就是”为什么不能直接把 500 步全塞进 Transformer”。<br><strong>② patch&#x3D;卷积的切片思想</strong>：把 336 步切成 16 步一片，token 从 336 个变 21 个——注意力负担骤降，且每个 token 自带”局部形状语义”。<br><strong>③ 通道独立 vs 通道混合</strong>：混合&#x3D;所有传感器拼一起进模型（能看相关但易被噪声稀释）；独立&#x3D;每个通道各自过同一网络（抗噪但丢相关）。PatchTST 选独立——<strong>注意这与你的多传感器联合建模立场相反，正好构成对照</strong>。<br><strong>④ masked 自监督</strong>：随机遮住一些 patch 让模型重建——BERT 的时序版。</p>
+<h2 id="第二步之二：全文通俗解读（按节）-2"><a href="#第二步之二：全文通俗解读（按节）-2" class="headerlink" title="第二步之二：全文通俗解读（按节）"></a>第二步之二：全文通俗解读（按节）</h2><ul>
+<li><strong>§1 引言</strong>：Transformer 在时序上的两个遗留问题（长序列注意力开销；通道混合的噪声稀释）→ 两条设计（摘要原文）。</li>
+<li><strong>§2 相关工作</strong>：高效 Transformer 谱系（Informer 的 ProbSparse 等）与线性模型的挑战；PatchTST 不玩花哨注意力，而是”少而精的 token”。</li>
+<li><strong>§3 方法（逐段翻译对象）</strong>：①patch 切片+线性嵌入+位置编码；②标准 Transformer encoder；③通道独立：D 个通道各自成序列、共享权重、batch 维合并；④头&#x3D;Flatten+线性；⑤自监督版：随机 mask patch → 重建（masked pretraining），微调与跨数据集迁移实验。</li>
+<li><strong>§4 实验</strong>：8 数据集长期预测（MSE&#x2F;MAE），对 SOTA Transformer 与线性模型全面领先；自监督预训练版进一步领先、迁移有效。</li>
+<li><strong>§5 结论</strong>：patch+CI 是 Transformer 时序预测的”正交基本功”。</li>
+</ul>
+<h2 id="第二步之三：重要术语通俗讲解-2"><a href="#第二步之三：重要术语通俗讲解-2" class="headerlink" title="第二步之三：重要术语通俗讲解"></a>第二步之三：重要术语通俗讲解</h2><ul>
+<li><strong>patching</strong>：序列切子序列当 token——局部语义+省注意力。</li>
+<li><strong>channel-independence</strong>：通道各自独立过同一网络（权重共享）。</li>
+<li><strong>look-back window</strong>：回看的历史长度（你仓库的 history&#x3D;168）。</li>
+<li><strong>masked pretraining</strong>：遮块重建的自监督预训练。</li>
+<li><strong>DLinear</strong>：单层线性+趋势季节分解的”挑战者”模型（对照基线）。<blockquote>
+<p><strong>🔍 术语加深（公式级）</strong></p>
+<ul>
+<li><strong>patch 的三重收益（摘要原文）逐条对应数学</strong>：①局部语义&#x3D;一个 token 承载 16 步的形状（比单点信息密）；②注意力 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>L</mi><mn>2</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(L^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">L</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>→<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mo stretchy="false">(</mo><mi>L</mi><mi mathvariant="normal">/</mi><mi>s</mi><msup><mo stretchy="false">)</mo><mn>2</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O((L/s)^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">O</span><span class="mopen">((</span><span class="mord mathnormal">L</span><span class="mord">/</span><span class="mord mathnormal">s</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>（s&#x3D;patch 长，平方级省）；③同预算能看更长 look-back（token 少了就能喂更长历史）。</li>
+<li><strong>channel-independence 的数学形态</strong>：把 [B,N,L] 重排成 [B·N,L]——N 个通道<strong>共享同一套权重</strong>各自前向；梯度上等价于”每个通道是独立训练样本”。收益&#x3D;抗通道间噪声串扰；代价&#x3D;放弃跨通道交互（对照你的 Mixer——这正是你与它的立场差异）。</li>
+<li><strong>masked pretraining</strong>：随机遮 40% 的 patch，损失&#x3D;重建误差——BERT 的时序版；跨数据集迁移实验（预训练在 A、微调在 B）是它的第二贡献。</li>
+<li><strong>别家怎么做（长期预测谱系）</strong>：Informer（ProbSparse 注意力）&#x2F;Autoformer（分解+自相关）&#x2F;FEDformer（频域）→ 都在改注意力；DLinear（线性+分解）质疑注意力；PatchTST 回答”注意力于 patch 化输入仍然最好”——你的多尺度 patch token 属于”patch 思想+缺失身份”的第三条路。</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<hr>
+<h1 id="A8-DeepAR（IJF-2020）"><a href="#A8-DeepAR（IJF-2020）" class="headerlink" title="A8 DeepAR（IJF 2020）"></a>A8 DeepAR（IJF 2020）</h1><h2 id="第一步：研究核心八项-3"><a href="#第一步：研究核心八项-3" class="headerlink" title="第一步：研究核心八项"></a>第一步：研究核心八项</h2><ol>
+<li><strong>标题翻译</strong>：《DeepAR：基于自回归循环网络的概率预测》</li>
+<li><strong>所属学科</strong>：机器学习 — 大规模概率预测（工业界方法）</li>
+<li><strong>作者</strong>：David Salinas、Valentin Flunkert、Jan Gasthaus（Amazon Research，德国）</li>
+<li><strong>发表日期</strong>：International Journal of Forecasting 36(3)，2020（arXiv:1704.04110 首发 2017）</li>
+<li><strong>研究背景（摘要原文）</strong>：概率预测（给定过去估计未来的<strong>概率分布</strong>）是优化业务流程的关键——零售备货要在正确时间&#x2F;地点&#x2F;数量备货；传统方法（ETS&#x2F;ARIMA 等）在”单条或小群时间序列”的设定下逐序列独立建模。</li>
+<li><strong>研究目的与创新（摘要原文）</strong>：在<strong>大量相关时间序列</strong>上训练<strong>自回归循环网络</strong>产生准确概率预测；用深度学习克服经典方法的诸多挑战；多个真实数据集上<strong>精度较 SOTA 提升约 15%</strong>。</li>
+<li><strong>数据集</strong>：多个真实世界预测数据集（全文实测高频：<strong>electricity、traffic</strong>，另有 Amazon 内部数据集）。</li>
+<li><strong>文献综述（依原文改写）</strong>：预测范式从”逐序列拟合”（Box-Jenkins&#x2F;ETS&#x2F;ARIMA）走向”全局深度模型”（MQ-CNN、DeepAR 等——一个模型学所有相关序列，靠特征条件化区分序列）；概率输出从解析分布到采样式预测；DeepAR 是全局概率范式的代表作，此后 TimeGrad（扩散）等沿”自回归+更强分布建模”推进。</li>
+</ol>
+<h2 id="第二步之一：前置基础知识（通俗）-3"><a href="#第二步之一：前置基础知识（通俗）-3" class="headerlink" title="第二步之一：前置基础知识（通俗）"></a>第二步之一：前置基础知识（通俗）</h2><p><strong>① 自回归</strong>：预测明天用昨天的预测值再喂回模型，一步步滚到 P 步后——误差会累积，这是它后来自回归采样的代价来源。<br><strong>② teacher forcing（教师强制）</strong>：训练时每步喂<strong>真值</strong>（不是模型自己的预测）——训练稳定但训练&#x2F;推理分布不一致（推理只能喂自己的采样），这是自回归模型的经典张力。<br><strong>③ 似然选择</strong>：连续量用高斯 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo stretchy="false">(</mo><mi>μ</mi><mo separator="true">,</mo><msup><mi>σ</mi><mn>2</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">N(\mu,\sigma^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mopen">(</span><span class="mord mathnormal">μ</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">σ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>、计数用负二项——模型输出的不是数值而是<strong>分布参数</strong>，NLL 训练（你的 kst_flow 同源思想）。<br><strong>④ 全局模型与冷启动</strong>：一个模型学所有相关序列（共享参数），新商品没历史也能靠”类别&#x2F;价格&#x2F;促销等特征”借相似序列的知识——这就是冷启动。</p>
+<h2 id="第二步之二：全文通俗解读（按节）-3"><a href="#第二步之二：全文通俗解读（按节）-3" class="headerlink" title="第二步之二：全文通俗解读（按节）"></a>第二步之二：全文通俗解读（按节）</h2><ul>
+<li><strong>§1 引言（重点）</strong>：业务动机（库存&#x2F;排班&#x2F;供应链）；逐序列建模的四大痛点（冷启动、相关序列不共享、无概率、特征难进模型）→ 全局概率模型逐条解决。</li>
+<li><strong>§3 方法（逐段翻译对象）</strong>：编码网络（历史+协变量→隐状态）→ 解码网络（训练喂真值 &#x2F; 推理喂自己采样）→ 似然层（高斯 μ,σ 或负二项）；损失&#x3D;逐时间步 NLL；时间特征（星期&#x2F;小时）与静态特征（类别）嵌入拼接。</li>
+<li><strong>§4 实验</strong>：electricity&#x2F;traffic + 内部大数据集；指标 quantile loss &#x2F; ND（归一化偏差）；对比 ETS&#x2F;ARIMA&#x2F;IQN&#x2F;Croston 等，约 15% 精度提升（摘要原文）；消融：特征、似然、全局 vs 逐序列。</li>
+<li><strong>§5 结论</strong>：全局自回归概率预测可落地；局限指向分布形状假设（高斯）与规则网格。</li>
+</ul>
+<h2 id="第二步之三：重要术语通俗讲解-3"><a href="#第二步之三：重要术语通俗讲解-3" class="headerlink" title="第二步之三：重要术语通俗讲解"></a>第二步之三：重要术语通俗讲解</h2><ul>
+<li><strong>全局模型（global model）</strong>：一条时间序列学不会的，一万条一起学——跨序列共享参数。</li>
+<li><strong>teacher forcing</strong>：训练喂真值、推理喂自己输出的错位（自回归模型的核心张力）。</li>
+<li><strong>自回归采样</strong>：推理时逐步采 z→算 y→把 y 喂回，滚出未来分布的样本。</li>
+<li><strong>负二项似然</strong>：计数型需求（卖几件）的概率分布选择。</li>
+<li><strong>quantile loss（pinball）</strong>：按分位报的误差（你的 QuantileHead 同款）。</li>
+<li><strong>冷启动</strong>：新序列无历史时的预测问题——靠特征借相似序列的知识。<blockquote>
+<p><strong>🔍 术语加深（公式级）</strong></p>
+<ul>
+<li><strong>自回归+teacher forcing 的训练&#x2F;推理错位</strong>：训练时解码器输入&#x3D;真值 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>y</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub></mrow><annotation encoding="application/x-tex">y_{t-1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6389em;vertical-align:-0.2083em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2083em;"><span></span></span></span></span></span></span></span></span></span>（teacher forcing）；推理时输入&#x3D;<strong>自己上一步的采样</strong>——误差会滚雪球（exposure bias）。DeepAR 的概率采样式推理部分缓解（每步从分布采而非取均值）。</li>
+<li><strong>似然选择规则（Ch2 可用）</strong>：连续量→高斯 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">N</mi><mo stretchy="false">(</mo><mi>μ</mi><mo separator="true">,</mo><msup><mi>σ</mi><mn>2</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\mathcal N(\mu,\sigma^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord mathcal" style="margin-right:0.1474em;">N</span><span class="mopen">(</span><span class="mord mathnormal">μ</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">σ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>；计数→负二项（过散的泊松）；正量→对数正态。模型输出分布<strong>参数</strong>而非数值，NLL 训练——你的流模型是”把似然换成无参数形状”的极端版。</li>
+<li><strong>全局模型的协变量三类</strong>：动态历史特征（随时间变，如星期几）、静态特征（每序列固定，如门店类别）、<strong>未来已知特征</strong>（日历&#x2F;促销计划——预测期可用）——你的 context 属于静态类。</li>
+<li><strong>~15% 提升（摘要原文）</strong>：相对 SOTA 的 WRMSSE&#x2F;ND 类指标——引用时写”较经典方法约 15%”。</li>
+<li><strong>别家怎么做</strong>：逐序列 ETS&#x2F;ARIMA（无共享）→ MQ-CNN&#x2F;MQ-RNN（全局+分位数）→ DeepAR（全局+似然采样）→ TimeGrad（全局+扩散）→ 你的 kst_flow（全局+流，不规则+缺失+联合）——一条”共享程度与分布表达力”双升的演化线。</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<hr>
+<h2 id="使用说明（本批通用）"><a href="#使用说明（本批通用）" class="headerlink" title="使用说明（本批通用）"></a>使用说明（本批通用）</h2><blockquote>
+<p><strong>🔍 补遗速查（审查后补充）</strong></p>
+<ul>
+<li><strong>ND（Normalized Deviation，归一化偏差）</strong>：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∑</mo><mi mathvariant="normal">∣</mi><mi>y</mi><mo>−</mo><mover accent="true"><mi>y</mi><mo>^</mo></mover><mi mathvariant="normal">∣</mi><mi mathvariant="normal">/</mi><mo>∑</mo><mi mathvariant="normal">∣</mi><mi>y</mi><mi mathvariant="normal">∣</mi></mrow><annotation encoding="application/x-tex">\sum|y-\hat y|/\sum|y|</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mop op-symbol small-op" style="position:relative;top:0em;">∑</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">∣</span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord katex-accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6944em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.1944em;"><span class="mord">^</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1944em;"><span></span></span></span></span></span><span class="mord">∣/</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop op-symbol small-op" style="position:relative;top:0em;">∑</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">∣</span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="mord">∣</span></span></span></span>——DeepAR&#x2F;TimeGrad 用的相对误差指标（分母用真值总和，消除量纲）。</li>
+<li><strong>WRMSSE</strong>：加权均方根尺度误差——M5 零售竞赛的官方指标（按序列层级加权）；DeepAR IJF 版用它。</li>
+<li><strong>Informer &#x2F; Autoformer &#x2F; FEDformer</strong>：长期预测 Transformer 三代（ProbSparse 稀疏注意力 &#x2F; 序列分解+自相关 &#x2F; 频域增强）——PatchTST 的对照系。</li>
+<li><strong>ProbSparse</strong>：Informer 的稀疏注意力——只算”查询分布最尖”的 Top-u 个查询，其余用均值填充。</li>
+<li><strong>Mamba</strong>：选择性状态空间模型（2023）——线性复杂度的 Transformer 挑战者（朱文忠综述”RNN 系”里的新成员）。</li>
+<li><strong>CQR &#x2F; EnbPI</strong>：共形时序预测的后续——分位数回归+共形 &#x2F; 集成+残差自助；Ch5 相关工作一句话。</li>
+<li><strong>Oxford-Man</strong>：牛津-Man 实验室金融波动率数据集——TFT 的第四个数据集。</li>
+</ul>
+</blockquote>
+<ol>
+<li>A5 只精读 §1–§2（10 页）；A6&#x2F;A7&#x2F;A8 方法节短，可全文精读。</li>
+<li>逐段翻译后做”对照动作”：A6↔<code>evaluate_risk_calibration.py</code>（校准器与阈值）、A7↔你编码器的 patch token（消融 a 系列）、A8↔<code>kst_flow.py</code> 的似然层与采样（同为”自回归&#x2F;并行采样”两极的对照）。</li>
+<li>每篇填记录表后，书面回答任务单里的批判四问——A7 的”通道独立规避联合”与 A8 的”无联合结构”两条，直接抄进 Ch1 研究缺口的草稿。</li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%96%B9%E6%B3%95%E8%AE%BA/" class="category-chain-item">方法论</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%97%B6%E5%BA%8F%E9%A2%84%E6%B5%8B/" class="print-no-link">#时序预测</a>
+      
+        <a href="/tags/%E8%AE%BA%E6%96%87%E7%A0%94%E8%AF%BB/" class="print-no-link">#论文研读</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>研读笔记（二）精读 A5-A8</div>
+      <div>https://py0909.github.io/2026/10/06/方法论/研读笔记-精读A5-A8/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Peng Yue</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年10月6日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-cc-nc"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="SA - 相同方式共享">
+                    <i class="iconfont icon-cc-sa"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/10/06/%E6%96%B9%E6%B3%95%E8%AE%BA/%E7%A0%94%E8%AF%BB%E7%AC%94%E8%AE%B0-%E7%95%A5%E8%AF%BBB1-B10/" title="研读笔记（三）略读 B1-B10">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">研读笔记（三）略读 B1-B10</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/10/06/%E6%96%B9%E6%B3%95%E8%AE%BA/%E7%A0%94%E8%AF%BB%E7%AC%94%E8%AE%B0-%E7%B2%BE%E8%AF%BBA1-A4/" title="研读笔记（一）精读 A1-A4">
+                        <span class="hidden-mobile">研读笔记（一）精读 A1-A4</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>Peng Yue</span> <i class="iconfont icon-love"></i> <span>Product Manager</span> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
